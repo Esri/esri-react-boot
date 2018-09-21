@@ -1,0 +1,12 @@
+{
+    "appVersion": "0.0.1",
+    "apiUrl": "api",
+    "loginUrl": "api/auth/arcgis",
+    "logoutUrl": "api/logout",
+    "appId": "hkdtqXBMmZ8JJ5tD",
+    "webmapId": "2c831005fd7b437787e3fd9ea53788e6",
+    "jsapiUrl": "https://js.arcgis.com/4.8/",
+    "jsapiV4": true,
+    "portalUrl": "https://prof-services.maps.arcgis.com",
+    "loginWithPopup": false
+}
