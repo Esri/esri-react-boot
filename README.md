@@ -18,4 +18,4 @@ Build and run live server:
 $ npm start
 ```
 
-* defaults to http://localhost:3001
+* defaults to http://localhost:3000
