@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { startup } from '../../services/agis-webscene';
-import { types } from '../reducers/webscene';
+import { types } from '../reducers/map';
 
 // WORKER //
 function* mapStart (action) {

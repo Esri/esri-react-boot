@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { actions as mapActions } from '../redux/reducers/webscene';
+import { actions as mapActions } from '../redux/reducers/map';
 import styled from 'styled-components';
 
 import WebScene from './esri/WebScene';

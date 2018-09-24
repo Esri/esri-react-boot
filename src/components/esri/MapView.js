@@ -11,7 +11,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { actions as mapActions } from '../../redux/reducers/webscene';
+import { actions as mapActions } from '../../redux/reducers/map';
 
 import { injectGlobal } from 'styled-components';
 
@@ -22,10 +22,17 @@ injectGlobal`
     }
 `;
 
+const containerID = "web-scene-view-container";
+
 class WebScene extends Component {
 
   componentDidMount() {
-      this.props.startMap(this.props.appConfig.webmapId, this.props.appConfig.mapOptions, this.props.user);
+      this.props.startMap(
+          this.props.appConfig.webmapId,
+          this.props.appConfig.mapOptions,
+          this.props.user,
+          containerID
+      );
   }
 
   shouldComponentUpdate(nextProps, nextState) {

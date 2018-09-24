@@ -11,7 +11,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { actions as mapActions } from '../../redux/reducers/webscene';
+import { actions as mapActions } from '../../redux/reducers/map';
 
 import { injectGlobal } from 'styled-components';
 
@@ -22,7 +22,7 @@ injectGlobal`
     }
 `;
 
-const containerID = "web-scene-view-container"
+const containerID = "web-scene-view-container";
 
 class WebScene extends Component {
 
