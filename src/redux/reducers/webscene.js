@@ -59,12 +59,13 @@ export const actions = {
             features
         }
     }),
-    startMap: (webmapId, mapOptions, user) => ({
+    startMap: (webmapId, mapOptions, user, node) => ({
         type: types.MAP_START,
         payload: {
             webmapId: webmapId,
             mapOptions: mapOptions,
-            user: user
+            user: user,
+            node: node
         }
     })
 };

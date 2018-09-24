@@ -6,7 +6,7 @@ import { types } from '../reducers/webscene';
 function* mapStart (action) {
     try {
 
-        yield call(startup, action.payload.webmapId, action.payload.mapOptions, action.payload.user);
+        yield call(startup, action.payload.webmapId, action.payload.mapOptions, action.payload.user, action.payload.node);
 
         yield put({
             type: types.MAP_LOADED

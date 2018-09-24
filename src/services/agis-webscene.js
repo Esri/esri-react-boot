@@ -64,8 +64,7 @@ export function createView(node, webmapId, viewOptions) {
 //let view;
 let map;
 
-export function startup(webmapId, mapOptions, user) {
-  const node = "viewContainer";
+export function startup(webmapId, mapOptions, user, node) {
 
   createView(node, webmapId, mapOptions).then(
     result => {

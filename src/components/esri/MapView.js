@@ -16,18 +16,16 @@ import { actions as mapActions } from '../../redux/reducers/webscene';
 import { injectGlobal } from 'styled-components';
 
 injectGlobal`
-    .map, #web-scene-view-container {
+    .map, #map-view-container {
         height: 100%;
         width: 100%;
     }
 `;
 
-const containerID = "web-scene-view-container"
-
 class WebScene extends Component {
 
   componentDidMount() {
-      this.props.startMap(this.props.appConfig.webmapId, this.props.appConfig.mapOptions, this.props.user, containerID);
+      this.props.startMap(this.props.appConfig.webmapId, this.props.appConfig.mapOptions, this.props.user);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -37,7 +35,7 @@ class WebScene extends Component {
 
   render() {
     return (
-      <div ref="mapDiv" id={containerID} ></div>
+      <div ref="mapDiv" id="map-view-container" ></div>
     );
   }
 }
