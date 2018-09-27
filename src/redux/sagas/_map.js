@@ -1,12 +1,20 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { startup } from '../../services/agis-webscene';
+import { startup as websceneStartup } from '../../services/agis-webscene';
+import { startup as mapviewStartup } from '../../services/agis-mapview';
 import { types } from '../reducers/map';
 
-// WORKER //
+// WORKERS //
 function* mapStart (action) {
+    console.log('calling mapStart: ', action);
     try {
 
-        yield call(startup, action.payload.webmapId, action.payload.mapOptions, action.payload.user, action.payload.node);
+        yield call(
+            mapviewStartup,
+            action.payload.webmapId,
+            action.payload.mapOptions,
+            action.payload.user,
+            action.payload.node
+        );
 
         yield put({
             type: types.MAP_LOADED
@@ -17,7 +25,35 @@ function* mapStart (action) {
     }
 }
 
-// WATCHER //
+function* mapViewStart (action) {
+    console.log('calling mapStart: ', action);
+    try {
+
+        let mapResponse = yield call(
+            mapviewStartup,
+            action.payload.mapOptions,
+            action.payload.mapViewOptions,
+            action.payload.node
+        );
+
+        console.log('mapResponse: ', mapResponse);
+
+        yield put({
+            type: types.MAP_LOADED
+        });
+    } catch (e) {
+        //yield put({type: "USER_FETCH_FAILED", message: e.message});
+        console.log('fetchConfig saga error...', e);
+    }
+}
+
+// WATCHERS //
 export function* watchStartMap() {
-    yield takeLatest(types.MAP_START, mapStart);
+    console.log('watching watchStartMap...');
+    yield takeLatest(types.WEB_SCENE_START, mapStart);
+}
+
+export function* watchStartMapView() {
+    console.log('watching watchStartMapView...');
+    yield takeLatest(types.MAP_VIEW_START, mapViewStart);
 }

@@ -4,7 +4,8 @@ export const types = {
     UPDATE_EXTENT: 'UPDATE_EXTENT',
     MAP_LOADED: 'MAP_LOADED',
     SET_FEATURES: 'SET_FEATURES',
-    MAP_START: 'MAP_START',
+    WEB_SCENE_START: 'WEB_SCENE_START',
+    MAP_VIEW_START: 'MAP_VIEW_START',
 }
 
 // REDUCERS //
@@ -60,11 +61,19 @@ export const actions = {
         }
     }),
     startMap: (webmapId, mapOptions, user, node) => ({
-        type: types.MAP_START,
+        type: types.WEB_SCENE_START,
         payload: {
             webmapId: webmapId,
             mapOptions: mapOptions,
             user: user,
+            node: node
+        }
+    }),
+    startMapView: (mapOptions, mapViewOptions, node) => ({
+        type: types.MAP_VIEW_START,
+        payload: {
+            mapOptions: mapOptions,
+            mapViewOptions: mapViewOptions,
             node: node
         }
     })

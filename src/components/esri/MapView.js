@@ -22,15 +22,14 @@ injectGlobal`
     }
 `;
 
-const containerID = "web-scene-view-container";
+const containerID = "map-view-container";
 
-class WebScene extends Component {
+class MapView extends Component {
 
   componentDidMount() {
-      this.props.startMap(
-          this.props.appConfig.webmapId,
+      this.props.startMapView(
           this.props.appConfig.mapOptions,
-          this.props.user,
+          this.props.appConfig.mapViewOptions,
           containerID
       );
   }
@@ -58,4 +57,4 @@ const mapDispatchToProps = function (dispatch) {
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (WebScene);
+export default connect(mapStateToProps, mapDispatchToProps) (MapView);

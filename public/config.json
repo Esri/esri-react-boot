@@ -8,5 +8,12 @@
     "jsapiUrl": "https://js.arcgis.com/4.8/",
     "jsapiV4": true,
     "portalUrl": "https://prof-services.maps.arcgis.com",
-    "loginWithPopup": false
+    "loginWithPopup": false,
+    "mapOptions": {
+        "basemap": "streets"
+    },
+    "mapViewOptions": {
+        "zoom": 4,
+        "center": [15, 65]
+    }
 }
