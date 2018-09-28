@@ -4,7 +4,7 @@
     "loginUrl": "api/auth/arcgis",
     "logoutUrl": "api/logout",
     "appId": "hkdtqXBMmZ8JJ5tD",
-    "webmapId": "2c831005fd7b437787e3fd9ea53788e6",
+    "webSceneID": "2c831005fd7b437787e3fd9ea53788e6",
     "jsapiUrl": "https://js.arcgis.com/4.8/",
     "jsapiV4": true,
     "portalUrl": "https://prof-services.maps.arcgis.com",
@@ -15,5 +15,6 @@
     "mapViewOptions": {
         "zoom": 4,
         "center": [15, 65]
-    }
+    },
+    "webMapID": "e691172598f04ea8881cd2a4adaa45ba"
 }

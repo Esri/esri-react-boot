@@ -69,12 +69,13 @@ export const actions = {
             node: node
         }
     }),
-    startMapView: (mapOptions, mapViewOptions, node) => ({
+    startMapView: (mapOptions, mapViewOptions, node, portalItemID) => ({
         type: types.MAP_VIEW_START,
         payload: {
             mapOptions: mapOptions,
             mapViewOptions: mapViewOptions,
-            node: node
+            node: node,
+            portalItemID: portalItemID
         }
     })
 };

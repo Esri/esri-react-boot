@@ -33,7 +33,8 @@ function* mapViewStart (action) {
             mapviewStartup,
             action.payload.mapOptions,
             action.payload.mapViewOptions,
-            action.payload.node
+            action.payload.node,
+            action.payload.portalItemID
         );
 
         console.log('mapResponse: ', mapResponse);

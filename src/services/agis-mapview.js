@@ -1,62 +1,85 @@
 import * as esriLoader from 'esri-loader';
 
-function initView(mapOptions, mapViewOptions, node) {
-  return new Promise((resolve, reject) => {
-    esriLoader.loadModules([
-      'esri/Map',
-      'esri/views/MapView'
-    ])
-    .then( ([Map, MapView]) => {
+function initView(mapOptions, mapViewOptions, node, portalItemID) {
+    // TODO split the return response to return a webmap or standard mapview instance
+    // if there is a portal ID then this is a web map
+    console.log('initView: ', portalItemID);
+    if (portalItemID) {
+        return new Promise((resolve, reject) => {
+            esriLoader.loadModules([
+                'esri/WebMap',
+                'esri/views/MapView'
+            ]).then( ([WebMap, MapView]) => {
 
-      // const webMapOptions = Object.assign({},
-      //   {
-      //     portalItem: {
-      //       id: webmapId
-      //     }
-      //   }
-      // );
+                const webmap = new WebMap({
+                    portalItem: {
+                        id: portalItemID
+                    }
+                });
 
-      const map = new Map({
-          basemap: "streets"
-      });
-
-      new MapView({
-          container: node,
-          map: map,
-          zoom: 4,
-          center: [15, 65]
-      }).when(
-        response => {
-          resolve({
-            view: response,
-          });
-        },
-        error => {
-          reject(error);
-        }
-
-      )
-    });
-  });
-}
-
-export function createView(mapOptions, mapViewOptions, node) {
-  return new Promise((resolve, reject) => {
-    if (!esriLoader.isLoaded()) {
-      reject('JSAPI is not yet loaded');
-      return;
+                new MapView({
+                    container: node,
+                    map: webmap,
+                }).when(
+                    response => {
+                        resolve({
+                            view: response,
+                        });
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+            });
+        });
     }
 
-    initView(mapOptions, mapViewOptions, node).then(
-      response => {
-        resolve(response);
-      },
-      error => {
-        reject(error);
-      }
-    );
+    // else if there is no portal ID then we return the default map view
+    return new Promise((resolve, reject) => {
+        esriLoader.loadModules([
+            'esri/Map',
+            'esri/views/MapView'
+        ]).then( ([Map, MapView]) => {
 
-  });
+            const map = new Map({
+                basemap: "streets"
+            });
+
+            new MapView({
+                container: node,
+                map: map,
+                zoom: 4,
+                center: [15, 65]
+            }).when(
+                response => {
+                    resolve({
+                        view: response,
+                    });
+                },
+                error => {
+                    reject(error);
+                }
+            );
+        });
+    });
+}
+
+export function createView(mapOptions, mapViewOptions, node, portalItemID) {
+    return new Promise((resolve, reject) => {
+        if (!esriLoader.isLoaded()) {
+            reject('JSAPI is not yet loaded');
+            return;
+        }
+
+        initView(mapOptions, mapViewOptions, node, portalItemID).then(
+            response => {
+                resolve(response);
+            },
+            error => {
+                reject(error);
+            }
+        );
+    });
 }
 
 //
@@ -65,9 +88,9 @@ export function createView(mapOptions, mapViewOptions, node) {
 //let view;
 let map;
 
-export function startup(mapOptions, mapViewOptions, node) {
+export function startup(mapOptions, mapViewOptions, node, portalItemID) {
 
-  createView(mapOptions, mapViewOptions, node).then(
+  createView(mapOptions, mapViewOptions, node, portalItemID).then(
     result => {
       init(result);
       setupEventHandlers(map);
@@ -77,7 +100,7 @@ export function startup(mapOptions, mapViewOptions, node) {
     error => {
       console.error("maperr", error);
       window.setTimeout(()=>{
-        startup(mapOptions, mapViewOptions, node);
+        startup(mapOptions, mapViewOptions, node, portalItemID);
       }, 1000);
     })
 }

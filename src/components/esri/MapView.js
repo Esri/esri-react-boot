@@ -27,10 +27,12 @@ const containerID = "map-view-container";
 class MapView extends Component {
 
   componentDidMount() {
+      console.log(this.props.appConfig);
       this.props.startMapView(
           this.props.appConfig.mapOptions,
           this.props.appConfig.mapViewOptions,
-          containerID
+          containerID,
+          this.props.appConfig.webMapID
       );
   }
 
