@@ -15,14 +15,14 @@ import { actions as mapActions } from '../../redux/reducers/map';
 
 import { injectGlobal } from 'styled-components';
 
+const containerID = "map-view-container";
+
 injectGlobal`
-    .map, #map-view-container {
+    .map, #${containerID} {
         height: 100%;
         width: 100%;
     }
 `;
-
-const containerID = "map-view-container";
 
 class MapView extends Component {
 

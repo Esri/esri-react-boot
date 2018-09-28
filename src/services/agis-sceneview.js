@@ -1,25 +1,23 @@
 import * as esriLoader from 'esri-loader';
 
-function initView(mapConfig, node) {
+function initView(mapConfig, user, node) {
     // if there is a portal ID then this is a web map
-    console.log('initView: ', mapConfig);
     if (mapConfig.id) {
         return new Promise((resolve, reject) => {
             esriLoader.loadModules([
-                'esri/WebMap',
-                'esri/views/MapView'
-            ]).then( ([WebMap, MapView]) => {
+                'esri/WebScene',
+                'esri/views/SceneView',
+            ]).then( ([WebScene, SceneView]) => {
 
-                const webmap = new WebMap({
+                let  webmap = new WebScene({
                     portalItem: {
                         id: mapConfig.id
                     }
                 });
 
-                new MapView({
-                    container: node,
+                new SceneView({
                     map: webmap,
-                    zoom: mapConfig.zoom,
+                    container: node
                 }).when(
                     response => {
                         resolve({
@@ -29,7 +27,7 @@ function initView(mapConfig, node) {
                     error => {
                         reject(error);
                     }
-                );
+                )
             });
         });
     }
@@ -37,18 +35,16 @@ function initView(mapConfig, node) {
     return new Promise((resolve, reject) => {
         esriLoader.loadModules([
             'esri/Map',
-            'esri/views/MapView'
-        ]).then( ([Map, MapView]) => {
+            'esri/views/SceneView'
+        ]).then( ([Map, SceneView]) => {
 
             const map = new Map({
                 basemap: mapConfig.basemap
             });
 
-            new MapView({
+            new SceneView({
                 container: node,
-                map: map,
-                zoom: mapConfig.zoom,
-                center: mapConfig.center
+                map: map
             }).when(
                 response => {
                     resolve({
@@ -63,14 +59,14 @@ function initView(mapConfig, node) {
     });
 }
 
-export function createView(mapConfig, node) {
+export function createView(mapConfig, user, node) {
     return new Promise((resolve, reject) => {
         if (!esriLoader.isLoaded()) {
             reject('JSAPI is not yet loaded');
             return;
         }
 
-        initView(mapConfig, node).then(
+        initView(mapConfig, user, node).then(
             response => {
                 resolve(response);
             },
@@ -87,21 +83,21 @@ export function createView(mapConfig, node) {
 //let view;
 let map;
 
-export function startup(mapConfig, node) {
-    createView(mapConfig, node).then(
-        result => {
-            init(result);
-            setupEventHandlers(map);
-            setupWidgetsAndLayers();
-            //finishedLoading();
-        },
-        error => {
-            console.error("maperr", error);
-            window.setTimeout(()=>{
-                startup(mapConfig, node);
-            }, 1000);
-        }
-    )
+export function startup(mapConfig, user, node) {
+
+  createView(mapConfig, user, node).then(
+    result => {
+      init(result);
+      setupEventHandlers(map);
+      setupWidgetsAndLayers();
+      //finishedLoading();
+    },
+    error => {
+      console.error("maperr", error);
+      window.setTimeout(()=>{
+        startup(mapConfig, user, node);
+      }, 1000);
+    })
 }
 
 // function finishedLoading() {
@@ -110,32 +106,33 @@ export function startup(mapConfig, node) {
 // }
 
 function init(args) {
-    //view = args.view
-    map = args.view.map;
+  //view = args.view
+  map = args.view.map;
 }
 
 function setupWidgetsAndLayers() {
-    esriLoader.loadModules([
-        'dojo/on',
-    ]).then( ([
-        on,
-    ]) => {
+  esriLoader.loadModules([
+    'dojo/on',
+  ])
+  .then( ([
+    on,
+  ]) => {
 
-    });
+  });
 }
 
 function setupEventHandlers(map) {
-    esriLoader.loadModules([
-        'dojo/on',
-        'dojo/topic'
-    ], (
-        on,
-        topic
-    ) => {
+  esriLoader.loadModules([
+    'dojo/on',
+    'dojo/topic'
+  ], (
+    on,
+    topic
+  ) => {
 
     //
     // JSAPI Map Event Handlers go here!
     //
 
-    });
+  });
 }

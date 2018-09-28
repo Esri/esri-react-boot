@@ -4,7 +4,7 @@ export const types = {
     UPDATE_EXTENT: 'UPDATE_EXTENT',
     MAP_LOADED: 'MAP_LOADED',
     SET_FEATURES: 'SET_FEATURES',
-    WEB_SCENE_START: 'WEB_SCENE_START',
+    SCENE_VIEW_START: 'SCENE_VIEW_START',
     MAP_VIEW_START: 'MAP_VIEW_START',
 }
 
@@ -60,11 +60,10 @@ export const actions = {
             features
         }
     }),
-    startMap: (webmapId, mapOptions, user, node) => ({
-        type: types.WEB_SCENE_START,
+    startSceneView: (mapConfig, user, node) => ({
+        type: types.SCENE_VIEW_START,
         payload: {
-            webmapId: webmapId,
-            mapOptions: mapOptions,
+            mapConfig: mapConfig,
             user: user,
             node: node
         }

@@ -13,33 +13,37 @@ import { bindActionCreators } from 'redux';
 
 import { actions as mapActions } from '../../redux/reducers/map';
 
-import { injectGlobal } from 'styled-components';
+import styled, { injectGlobal } from 'styled-components';
+
+const containerID = "web-scene-view-container";
 
 injectGlobal`
-    .map, #web-scene-view-container {
+    .map, #${containerID} {
         height: 100%;
         width: 100%;
     }
 `;
 
-const containerID = "web-scene-view-container";
+class SceneView extends Component {
 
-class WebScene extends Component {
+    componentDidMount() {
+        this.props.startSceneView(
+            this.props.mapConfig,
+            this.props.user,
+            containerID
+        );
+    }
 
-  componentDidMount() {
-      this.props.startMap(this.props.appConfig.webmapId, this.props.appConfig.mapOptions, this.props.user, containerID);
-  }
+    shouldComponentUpdate(nextProps, nextState) {
+        // Tell React to never update this component, that's up to us
+        return false;
+    }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // Tell React to never update this component, that's up to us
-    return false;
-  }
-
-  render() {
-    return (
-      <div ref="mapDiv" id={containerID} ></div>
-    );
-  }
+    render() {
+        return (
+            <div ref="mapDiv" id={containerID}></div>
+        );
+    }
 }
 
 const mapStateToProps = state => ({
@@ -48,9 +52,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators({
-      ...mapActions
-  }, dispatch);
+    return bindActionCreators({
+        ...mapActions
+    }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (WebScene);
+export default connect(mapStateToProps, mapDispatchToProps) (SceneView);

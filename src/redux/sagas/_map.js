@@ -1,17 +1,16 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { startup as websceneStartup } from '../../services/agis-webscene';
+import { startup as websceneStartup } from '../../services/agis-sceneview';
 import { startup as mapviewStartup } from '../../services/agis-mapview';
 import { types } from '../reducers/map';
 
 // WORKERS //
-function* mapStart (action) {
-    console.log('calling mapStart: ', action);
+function* sceneViewStart (action) {
+    console.log('calling sceneStart: ', action);
     try {
 
         yield call(
-            mapviewStartup,
-            action.payload.webmapId,
-            action.payload.mapOptions,
+            websceneStartup,
+            action.payload.mapConfig,
             action.payload.user,
             action.payload.node
         );
@@ -47,9 +46,9 @@ function* mapViewStart (action) {
 }
 
 // WATCHERS //
-export function* watchStartMap() {
-    console.log('watching watchStartMap...');
-    yield takeLatest(types.WEB_SCENE_START, mapStart);
+export function* watchStartSceneView() {
+    console.log('watching watchStartSceneView...');
+    yield takeLatest(types.SCENE_VIEW_START, sceneViewStart);
 }
 
 export function* watchStartMapView() {
