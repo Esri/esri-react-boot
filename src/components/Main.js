@@ -46,7 +46,7 @@ class Main extends Component {
                         features={this.props.features}
                     /> */}
                     <MapView
-                        appConfig={this.props.appConfig}
+                        mapConfig={this.props.appConfig.webMapConfig}
                         mapState={this.props.map}
                         user={this.props.auth.user}
                         onMapLoaded={this.props.mapLoaded}

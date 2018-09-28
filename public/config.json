@@ -1,20 +1,27 @@
 {
     "appVersion": "0.0.1",
+
     "apiUrl": "api",
     "loginUrl": "api/auth/arcgis",
     "logoutUrl": "api/logout",
-    "appId": "hkdtqXBMmZ8JJ5tD",
-    "webSceneID": "2c831005fd7b437787e3fd9ea53788e6",
     "jsapiUrl": "https://js.arcgis.com/4.8/",
     "jsapiV4": true,
-    "portalUrl": "https://prof-services.maps.arcgis.com",
     "loginWithPopup": false,
-    "mapOptions": {
-        "basemap": "streets"
+
+    "portalUrl": "https://prof-services.maps.arcgis.com",
+    "appId": "hkdtqXBMmZ8JJ5tD",
+
+    "webSceneConfig": {
+        "id": "2c831005fd7b437787e3fd9ea53788e6"
     },
-    "mapViewOptions": {
+
+    "webMapConfig": {
+        "id":  "e691172598f04ea8881cd2a4adaa45ba"
+    },
+
+    "mapConfig": {
+        "basemap": "streets",
         "zoom": 4,
         "center": [15, 65]
-    },
-    "webMapID": "e691172598f04ea8881cd2a4adaa45ba"
+    }
 }

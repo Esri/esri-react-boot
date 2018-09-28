@@ -31,10 +31,8 @@ function* mapViewStart (action) {
 
         let mapResponse = yield call(
             mapviewStartup,
-            action.payload.mapOptions,
-            action.payload.mapViewOptions,
+            action.payload.mapConfig,
             action.payload.node,
-            action.payload.portalItemID
         );
 
         console.log('mapResponse: ', mapResponse);

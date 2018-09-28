@@ -1,10 +1,10 @@
 import * as esriLoader from 'esri-loader';
 
-function initView(mapOptions, mapViewOptions, node, portalItemID) {
+function initView(mapConfig, node) {
     // TODO split the return response to return a webmap or standard mapview instance
     // if there is a portal ID then this is a web map
-    console.log('initView: ', portalItemID);
-    if (portalItemID) {
+    console.log('initView: ', mapConfig);
+    if (mapConfig.id) {
         return new Promise((resolve, reject) => {
             esriLoader.loadModules([
                 'esri/WebMap',
@@ -13,7 +13,7 @@ function initView(mapOptions, mapViewOptions, node, portalItemID) {
 
                 const webmap = new WebMap({
                     portalItem: {
-                        id: portalItemID
+                        id: mapConfig.id
                     }
                 });
 
@@ -42,14 +42,14 @@ function initView(mapOptions, mapViewOptions, node, portalItemID) {
         ]).then( ([Map, MapView]) => {
 
             const map = new Map({
-                basemap: "streets"
+                basemap: mapConfig.basemap
             });
 
             new MapView({
                 container: node,
                 map: map,
-                zoom: 4,
-                center: [15, 65]
+                zoom: mapConfig.zoom,
+                center: mapConfig.center
             }).when(
                 response => {
                     resolve({
@@ -64,14 +64,14 @@ function initView(mapOptions, mapViewOptions, node, portalItemID) {
     });
 }
 
-export function createView(mapOptions, mapViewOptions, node, portalItemID) {
+export function createView(mapConfig, node) {
     return new Promise((resolve, reject) => {
         if (!esriLoader.isLoaded()) {
             reject('JSAPI is not yet loaded');
             return;
         }
 
-        initView(mapOptions, mapViewOptions, node, portalItemID).then(
+        initView(mapConfig, node).then(
             response => {
                 resolve(response);
             },
@@ -88,9 +88,9 @@ export function createView(mapOptions, mapViewOptions, node, portalItemID) {
 //let view;
 let map;
 
-export function startup(mapOptions, mapViewOptions, node, portalItemID) {
+export function startup(mapConfig, node) {
 
-  createView(mapOptions, mapViewOptions, node, portalItemID).then(
+  createView(mapConfig, node).then(
     result => {
       init(result);
       setupEventHandlers(map);
@@ -100,7 +100,7 @@ export function startup(mapOptions, mapViewOptions, node, portalItemID) {
     error => {
       console.error("maperr", error);
       window.setTimeout(()=>{
-        startup(mapOptions, mapViewOptions, node, portalItemID);
+        startup(mapConfig, node);
       }, 1000);
     })
 }
