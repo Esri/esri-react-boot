@@ -28,10 +28,12 @@ function* mapViewStart (action) {
     console.log('calling mapStart: ', action);
     try {
 
+
         let mapResponse = yield call(
             mapviewStartup,
             action.payload.mapConfig,
             action.payload.node,
+            action.payload.features
         );
 
         console.log('mapResponse: ', mapResponse);

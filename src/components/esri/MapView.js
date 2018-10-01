@@ -26,24 +26,25 @@ injectGlobal`
 
 class MapView extends Component {
 
-  componentDidMount() {
-      console.log(this.props.mapConfig);
-      this.props.startMapView(
-          this.props.mapConfig,
-          containerID,
-      );
-  }
+    componentDidMount() {
+        console.log(this.props.mapConfig);
+        this.props.startMapView(
+            this.props.mapConfig,
+            containerID,
+            this.props.features
+        );
+    }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // Tell React to never update this component, that's up to us
-    return false;
-  }
+    shouldComponentUpdate(nextProps, nextState) {
+        // Tell React to never update this component, that's up to us
+        return false;
+    }
 
-  render() {
-    return (
-      <div ref="mapDiv" id="map-view-container" ></div>
-    );
-  }
+    render() {
+        return (
+            <div ref="mapDiv" id="map-view-container" ></div>
+        );
+    }
 }
 
 const mapStateToProps = state => ({
@@ -52,9 +53,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators({
-      ...mapActions
-  }, dispatch);
+    return bindActionCreators({
+        ...mapActions
+    }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps) (MapView);

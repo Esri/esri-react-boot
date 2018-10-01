@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { actions as mapActions } from '../redux/reducers/map';
 import styled from 'styled-components';
 
-import SceneView from './esri/SceneView';
-// import MapView from './esri/MapView';
+//import SceneView from './esri/SceneView';
+import MapView from './esri/MapView';
 import Loading from './Loading';
 import CardPanel from './CardPanel'
 
@@ -37,22 +37,22 @@ class Main extends Component {
                 <Loading isLoading={this.props.mapLoaded} />
 
                 <MapWrap>
-                    <SceneView
+                    {/* <SceneView
                         mapConfig={this.props.appConfig.sceneConfig}
                         mapState={this.props.map}
                         user={this.props.auth.user}
                         onMapLoaded={this.props.mapLoaded}
                         updateExtent={this.props.updateExtent}
                         features={this.props.features}
-                    />
-                    {/* <MapView
+                    /> */}
+                    <MapView
                         mapConfig={this.props.appConfig.webMapConfig}
                         mapState={this.props.map}
                         user={this.props.auth.user}
                         onMapLoaded={this.props.mapLoaded}
                         updateExtent={this.props.updateExtent}
-                        features={this.props.features}
-                    /> */}
+                        features={this.props.appConfig.featureURLs}
+                    />
                 </MapWrap>
 
                 <CardPanel />

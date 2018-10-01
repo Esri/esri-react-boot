@@ -7,8 +7,9 @@ function initView(mapConfig, node) {
         return new Promise((resolve, reject) => {
             esriLoader.loadModules([
                 'esri/WebMap',
-                'esri/views/MapView'
-            ]).then( ([WebMap, MapView]) => {
+                'esri/views/MapView',
+                'esri/geometry/Extent'
+            ]).then( ([WebMap, MapView, Extent]) => {
 
                 const webmap = new WebMap({
                     portalItem: {
@@ -16,10 +17,12 @@ function initView(mapConfig, node) {
                     }
                 });
 
+                console.log('parsing extent: ', mapConfig.extent);
+
                 new MapView({
                     container: node,
                     map: webmap,
-                    zoom: mapConfig.zoom,
+                    extent: mapConfig.extent
                 }).when(
                     response => {
                         resolve({
@@ -87,12 +90,13 @@ export function createView(mapConfig, node) {
 //let view;
 let map;
 
-export function startup(mapConfig, node) {
+export function startup(mapConfig, node, features) {
     createView(mapConfig, node).then(
         result => {
             init(result);
             setupEventHandlers(map);
-            setupWidgetsAndLayers();
+            console.log('adding features: ', features);
+            setupWidgetsAndLayers(features);
             //finishedLoading();
         },
         error => {
@@ -114,13 +118,23 @@ function init(args) {
     map = args.view.map;
 }
 
-function setupWidgetsAndLayers() {
+function setupWidgetsAndLayers(features) {
     esriLoader.loadModules([
         'dojo/on',
+        'esri/layers/FeatureLayer'
     ]).then( ([
         on,
+        FeatureLayer,
     ]) => {
-
+        if (features && features.length > 0) {
+            features.forEach(function(featureLayer) {
+                console.log('trying to add layer: ', featureLayer);
+                let fl = new FeatureLayer({
+                    url: featureLayer
+                });
+                map.add(fl);
+            });
+        }
     });
 }
 

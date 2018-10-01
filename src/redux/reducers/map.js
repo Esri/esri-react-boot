@@ -68,11 +68,12 @@ export const actions = {
             node: node
         }
     }),
-    startMapView: (mapConfig, node) => ({
+    startMapView: (mapConfig, node, features) => ({
         type: types.MAP_VIEW_START,
         payload: {
             mapConfig: mapConfig,
             node: node,
+            features: features,
         }
     })
 };

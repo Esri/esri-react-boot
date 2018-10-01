@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux';
 
 import { actions as mapActions } from '../../redux/reducers/map';
 
-import styled, { injectGlobal } from 'styled-components';
+import { injectGlobal } from 'styled-components';
 
 const containerID = "web-scene-view-container";
 
