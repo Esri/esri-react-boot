@@ -17,14 +17,17 @@ import App from './components/App';
 
 // Styles //
 import { injectGlobal } from 'styled-components';
-import 'primereact/resources/primereact.min.css';
-import './styles/theme.css';
-import 'primeicons/primeicons.css';
+import JssProvider from 'react-jss/lib/JssProvider';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import { generateClassName, jss, createInsertPoint, theme } from './styles/theme';
+import './styles/fonts.css';
 
+// Global page styling
 injectGlobal`
     html,
     body {
         height: 100%;
+        font-family: Avenir Next, sans-serif;
     }
 
     body {
@@ -36,6 +39,10 @@ injectGlobal`
     }
 `;
 
+console.log('Theme obj: ', theme)
+
+// Create JSS insert point for theming
+createInsertPoint();
 // Run sagas
 sagaMiddleware.run(rootSaga);
 // Persist the store
@@ -47,7 +54,11 @@ window.persistor = persistor;
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <Route path='/' component={App} />
+            <JssProvider jss={jss} generateClassName={generateClassName}>
+                <MuiThemeProvider theme={theme}>
+                    <Route path='/' component={App} />
+                </MuiThemeProvider>
+            </JssProvider>
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root')
