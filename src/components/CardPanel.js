@@ -1,7 +1,7 @@
 // Imports //
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { withStyles, Paper, AppBar, Card, CardContent } from '@material-ui/core';
+import { Paper, AppBar, Card, CardContent } from '@material-ui/core';
 
 // Styled Components //
 const Container = styled.div`
