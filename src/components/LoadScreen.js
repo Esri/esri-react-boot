@@ -1,8 +1,10 @@
 // Imports //
 import React, { Component } from 'react';
-import styled, { keyframes, injectGlobal } from 'styled-components';
-import { withStyles } from '@material-ui/core/styles';
+import styled, { keyframes } from 'styled-components';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+import { theme } from '../styles/theme';
 
 import background from '../styles/images/Topo-Abs-BG.svg';
 import logo from '../styles/images/Esri-React-Logo.svg';
@@ -16,13 +18,6 @@ const animationDelay = delayAmount + 'ms';
 const animationDuration = durationAmount + 'ms';
 
 // Styled Components //
-injectGlobal`
-    .p-progress-spinner-svg {
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 100%;
-    }
-`;
-
 const fadeOut = keyframes`
     0%   {opacity: 1;}
     100% {opacity: 0;}
@@ -60,7 +55,7 @@ const StyledCircularProgress = withStyles({
     circle: {
         padding: '10px',
         fill: 'rgba(0,0,0,0.5)',
-        stroke: '#ffffff'
+        stroke: `${theme.palette.common.white}`
     }
 })(CircularProgress);
 
@@ -90,7 +85,7 @@ const Logo = styled.img `
 `;
 
 // Class //
-class Loading extends Component {
+class LoadScreen extends Component {
     constructor(props) {
         super(props);
         this.state = { isAnimating: true }
@@ -132,4 +127,4 @@ class Loading extends Component {
     }
 }
 
-export default Loading
+export default LoadScreen

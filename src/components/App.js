@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { actions as authActions } from '../redux/reducers/auth';
 import { actions as configActions } from '../redux/reducers/config';
 
-import Loading from './Loading';
+import LoadScreen from './LoadScreen';
 //import Login from './Login';
 import Main from './Main';
 //import AuthManager from './esri/auth/AuthManager';
@@ -33,7 +33,7 @@ class App extends Component {
     //
     if (!authTried || !isAuthenticated || !configLoaded) {
       return (
-          <Loading isLoaded={false}/>
+          <LoadScreen isLoaded={false}/>
       )
     }
     //TODO remove this state... depricated

@@ -19,14 +19,23 @@ export function createInsertPoint() {
 // MUI Theme object
 // can inject custom properties
 export const theme = createMuiTheme({
+    palette: {
+        background: {
+            header: {
+                main: '#eff0f2',
+                dark: '#dadce0',
+            }
+        },
+        text: {
+            primary: '#4d4d4d',
+        }
+    },
     typography: {
         useNextVariants: true,
         fontFamily: [
             '"Avenir Next"',
             'sans-serif',
         ].join(','),
-    },
-    variables: {
-        variableProps: true
+        fontSize: 16,
     },
 });

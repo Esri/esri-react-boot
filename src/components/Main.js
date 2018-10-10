@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 //import SceneView from './esri/SceneView';
 import MapView from './esri/MapView';
-import Loading from './Loading';
+import LoadScreen from './LoadScreen';
 import CardPanel from './CardPanel'
 
 // Styled Components //
@@ -34,7 +34,7 @@ class Main extends Component {
     render() {
         return (
             <Container>
-                <Loading isLoading={this.props.mapLoaded} />
+                <LoadScreen isLoading={this.props.mapLoaded} />
 
                 <MapWrap>
                     {/* <SceneView

@@ -16,28 +16,11 @@ import { ConnectedRouter } from 'connected-react-router';
 import App from './components/App';
 
 // Styles //
-import { injectGlobal } from 'styled-components';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { generateClassName, jss, createInsertPoint, theme } from './styles/theme';
+import './styles/global';
 import './styles/fonts.css';
-
-// Global page styling
-injectGlobal`
-    html,
-    body {
-        height: 100%;
-        font-family: Avenir Next, sans-serif;
-    }
-
-    body {
-        margin: 0;
-        padding: 0;
-        font-weight: 100;
-        letter-spacing: 1px;
-        font-size: 16px !important;
-    }
-`;
 
 console.log('Theme obj: ', theme)
 
