@@ -1,28 +1,26 @@
 // REDUX IMPORTS //
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import rootSaga from './sagas/index';
+
 import * as reducers from './';
-// PERSIST IMPORTS //
-import { createBrowserHistory } from 'history';
-import { createPersistoid } from 'redux-persist';
-// ROUNTER IMPORTS //
-import { routerMiddleware, connectRouter } from 'connected-react-router';
 
-let basename;
-process.env.NODE_ENV !== 'production' ? basename = '' : basename = '/inspector';
+export function initStore() {
+  // Setup Redux dev tools
+  // TODO - temporarily diabled - see https://github.com/zalmoxisus/redux-devtools-extension/issues/619
+  const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const history = createBrowserHistory({ basename });
+  // Setup Redux store
+  const rootReducer = combineReducers(reducers);
+  const sagaMiddleware = createSagaMiddleware();
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const rootReducer = combineReducers(reducers);
+  const store = createStore(
+    rootReducer,
+    composeEnhancer(applyMiddleware(sagaMiddleware))
+  );
 
-export const sagaMiddleware = createSagaMiddleware();
+  // Run sagas
+  sagaMiddleware.run(rootSaga);
 
-export const store = createStore(
-  connectRouter(history)(rootReducer),
-  composeEnhancer(
-    applyMiddleware(routerMiddleware(history), sagaMiddleware)
-  )
-);
-
-export const persistor = createPersistoid(store, { blacklist: ['auth'] });
+  return store;
+}

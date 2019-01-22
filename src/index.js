@@ -4,15 +4,13 @@ import ReactDOM from 'react-dom';
 
 // Redux //
 import { Provider } from 'react-redux';
-import { persistStore } from 'redux-persist';
-import rootSaga from './redux/sagas/index';
-import { store, history, persistor, sagaMiddleware } from './redux/store';
+import { initStore } from './redux/store';
 
 // React Router //
-import { Route } from 'react-router';
-import { ConnectedRouter } from 'connected-react-router';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 // Components //
+import { homepage } from '../package.json';
 import App from './components/App';
 
 // Styles //
@@ -24,25 +22,25 @@ import './styles/fonts.css';
 
 console.log('Theme obj: ', theme)
 
+// App runs at the root locally, but under /{homepage} in production
+let basename;
+process.env.NODE_ENV !== 'production' ? (basename = '') : (basename = homepage);
+
 // Create JSS insert point for theming
 createInsertPoint();
-// Run sagas
-sagaMiddleware.run(rootSaga);
-// Persist the store
-persistStore(store);
-// TODO what is this for?
-window.persistor = persistor;
+// Create Redux Store
+export const store = initStore();
 
 // App entry point
 ReactDOM.render(
-    <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <JssProvider jss={jss} generateClassName={generateClassName}>
-                <MuiThemeProvider theme={theme}>
-                    <Route path='/' component={App} />
-                </MuiThemeProvider>
-            </JssProvider>
-        </ConnectedRouter>
-    </Provider>,
-    document.getElementById('root')
+  <Provider store={store}>
+    <BrowserRouter basename={basename}>
+      <JssProvider jss={jss} generateClassName={generateClassName}>
+        <MuiThemeProvider theme={theme}>
+          <Route path='/' component={App} />
+        </MuiThemeProvider>
+      </JssProvider>
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById('root')
 )
