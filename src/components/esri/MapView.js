@@ -13,15 +13,13 @@ import { bindActionCreators } from 'redux';
 
 import { actions as mapActions } from '../../redux/reducers/map';
 
-import { injectGlobal } from 'styled-components';
+import styled from 'styled-components';
 
 const containerID = "map-view-container";
 
-injectGlobal`
-    .map, #${containerID} {
-        height: 100%;
-        width: 100%;
-    }
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
 `;
 
 class MapView extends Component {
@@ -42,7 +40,7 @@ class MapView extends Component {
 
     render() {
         return (
-            <div ref="mapDiv" id="map-view-container" ></div>
+            <Container ref="mapDiv" id="map-view-container" ></Container>
         );
     }
 }

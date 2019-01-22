@@ -54,7 +54,7 @@ class CardPanel extends Component {
             <Container>
                 <StyledPaper elevation={1}>
                     <StyledAppBar position="static">
-                        <Typography variant="subheading">
+                        <Typography variant="subtitle1">
                             Incidents
                         </Typography>
                     </StyledAppBar>

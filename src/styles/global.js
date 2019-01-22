@@ -1,9 +1,9 @@
-import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import { theme } from './theme';
 
 // Global page styling
 // override AGIS JS API Widgets here
-injectGlobal`
+export const GlobalStyle = createGlobalStyle`
     html,
     body {
         height: 100%;

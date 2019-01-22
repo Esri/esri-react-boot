@@ -14,10 +14,9 @@ import { homepage } from '../package.json';
 import App from './components/App';
 
 // Styles //
-import JssProvider from 'react-jss/lib/JssProvider';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import { generateClassName, jss, createInsertPoint, theme } from './styles/theme';
-import './styles/global';
+import { theme } from './styles/theme';
+import { GlobalStyle } from './styles/global';
 import './styles/fonts.css';
 
 console.log('Theme obj: ', theme)
@@ -26,8 +25,6 @@ console.log('Theme obj: ', theme)
 let basename;
 process.env.NODE_ENV !== 'production' ? (basename = '') : (basename = homepage);
 
-// Create JSS insert point for theming
-createInsertPoint();
 // Create Redux Store
 export const store = initStore();
 
@@ -35,11 +32,10 @@ export const store = initStore();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter basename={basename}>
-      <JssProvider jss={jss} generateClassName={generateClassName}>
         <MuiThemeProvider theme={theme}>
+          <GlobalStyle />
           <Route path='/' component={App} />
         </MuiThemeProvider>
-      </JssProvider>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

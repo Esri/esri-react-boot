@@ -4,7 +4,7 @@
     "apiUrl": "api",
     "loginUrl": "api/auth/arcgis",
     "logoutUrl": "api/logout",
-    "jsapiUrl": "https://js.arcgis.com/4.8/",
+    "jsapiUrl": "https://js.arcgis.com/4.10/",
     "jsapiV4": true,
     "loginWithPopup": false,
 
