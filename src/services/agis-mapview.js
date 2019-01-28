@@ -87,7 +87,7 @@ export function createView(mapConfig, node) {
 //
 // JSAPI Stuff
 //
-//let view;
+let view;
 let map;
 
 export function startup(mapConfig, node, features) {
@@ -102,7 +102,7 @@ export function startup(mapConfig, node, features) {
         error => {
             console.error("maperr", error);
             window.setTimeout(()=>{
-                startup(mapConfig, node);
+                startup(mapConfig, node, features);
             }, 1000);
         }
     )
@@ -114,7 +114,7 @@ export function startup(mapConfig, node, features) {
 // }
 
 function init(args) {
-    //view = args.view
+    view = args.view
     map = args.view.map;
 }
 
@@ -127,13 +127,21 @@ function setupWidgetsAndLayers(features) {
         FeatureLayer,
     ]) => {
         if (features && features.length > 0) {
+            let fl = null;
             features.forEach(function(featureLayer) {
                 console.log('trying to add layer: ', featureLayer);
-                let fl = new FeatureLayer({
+                fl = new FeatureLayer({
                     url: featureLayer
                 });
                 map.add(fl);
             });
+
+            console.log('Map for Layer: ', map);
+
+            fl.queryExtent()
+          .then(function(response) {
+            view.goTo(response.extent);
+          });
         }
     });
 }

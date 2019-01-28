@@ -8,6 +8,7 @@
     "jsapiV4": true,
     "loginWithPopup": false,
 
+    "portalUrl": "https://prof-services.maps.arcgis.com",
     "appId": "hkdtqXBMmZ8JJ5tD",
 
     "webSceneConfig": {
