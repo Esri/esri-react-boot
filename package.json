@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/react-boot",
   "dependencies": {
-    "@material-ui/core": "^3.9.0",
+    "@material-ui/core": "^3.9.1",
     "classnames": "^2.2.6",
     "detect-browser-language": "0.0.1",
     "esri-loader": "^2.6.0",

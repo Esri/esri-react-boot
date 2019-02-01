@@ -1,5 +1,5 @@
 import { loadModules } from 'esri-loader';
-import { bootstrapJSAPI } from '../../../utils/esriLoader';
+import { bootstrapJSAPI } from '../../../utils/esriHelper';
 
 export default class AuthManager {
   constructor(appId, portalUrl, jsapiUrl, jsapiV4, loginWithPopup) {
