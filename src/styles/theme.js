@@ -17,7 +17,7 @@ export const theme = createMuiTheme({
     typography: {
         useNextVariants: true,
         fontFamily: [
-            '"Avenir Next"',
+            '"Montserrat"',
             'sans-serif',
         ].join(','),
         fontSize: 16,

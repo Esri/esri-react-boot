@@ -34,13 +34,6 @@ const isScene = true;
 class SceneView extends Component {
 
   componentDidMount() {
-    // this.props.startSceneView(
-    //   this.props.mapConfig,
-    //   this.props.user,
-    //   containerID
-    // );
-
-    console.log("scene comp mounted");
     this.startup(
       this.props.mapConfig,
       containerID
@@ -81,7 +74,6 @@ class SceneView extends Component {
   }
 
   init = (response) => {
-    console.log('creating the scene: ', response);
     this.view = response.view
     this.map = response.view.map;
   }

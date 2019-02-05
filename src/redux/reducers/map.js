@@ -59,21 +59,5 @@ export const actions = {
         payload: {
             features
         }
-    }),
-    startSceneView: (mapConfig, user, node) => ({
-        type: types.SCENE_VIEW_START,
-        payload: {
-            mapConfig: mapConfig,
-            user: user,
-            node: node
-        }
-    }),
-    startMapView: (mapConfig, node, features) => ({
-        type: types.MAP_VIEW_START,
-        payload: {
-            mapConfig: mapConfig,
-            node: node,
-            features: features,
-        }
     })
 };

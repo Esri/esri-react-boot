@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/react-boot",
   "dependencies": {
-    "@material-ui/core": "^3.9.1",
+    "@material-ui/core": "^3.9.2",
     "classnames": "^2.2.6",
     "detect-browser-language": "0.0.1",
     "esri-loader": "^2.6.0",
@@ -15,7 +15,7 @@
     "react-router-dom": "^4.3.1",
     "react-transition-group": "^2.5.3",
     "redux": "^4.0.1",
-    "redux-saga": "^1.0.0",
+    "redux-saga": "^1.0.1",
     "styled-components": "^4.1.3"
   },
   "scripts": {
