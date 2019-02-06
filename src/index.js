@@ -14,12 +14,9 @@ import { homepage } from '../package.json';
 import App from './components/App';
 
 // Styles //
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import { theme } from './styles/theme';
+import CalciteThemeProvider from 'calcite-react/CalciteThemeProvider';
 import { GlobalStyle } from './styles/global';
 import './styles/fonts.css';
-
-console.log('Theme obj: ', theme)
 
 // App runs at the root locally, but under /{homepage} in production
 let basename;
@@ -32,10 +29,10 @@ export const store = initStore();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter basename={basename}>
-        <MuiThemeProvider theme={theme}>
+        <CalciteThemeProvider>
           <GlobalStyle />
           <Route path='/' component={App} />
-        </MuiThemeProvider>
+        </CalciteThemeProvider>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

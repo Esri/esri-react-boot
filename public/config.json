@@ -15,7 +15,7 @@
     },
 
     "sceneConfig": {
-        "basemap": "streets",
+        "basemap": "dark-gray-vector",
         "ground": "world-elevation"
     },
 

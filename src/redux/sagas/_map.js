@@ -1,7 +1,7 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+//import { call, put, takeLatest } from 'redux-saga/effects';
 // import { startup as websceneStartup } from '../../services/agis-sceneview';
 // import { startup as mapviewStartup } from '../../services/agis-mapview';
-import { types } from '../reducers/map';
+//import { types } from '../reducers/map';
 
 // WORKERS //
 // function* sceneViewStart (action) {

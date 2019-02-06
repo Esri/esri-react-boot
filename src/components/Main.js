@@ -10,7 +10,6 @@ import { actions as mapActions } from '../redux/reducers/map';
 import SceneView from './esri/map/SceneView';
 //import MapView from './esri/map/MapView';
 import LoadScreen from './LoadScreen';
-import CardPanel from './CardPanel'
 
 // Styled Components
 import styled from 'styled-components';
@@ -58,8 +57,6 @@ class Main extends Component {
                         features={this.props.appConfig.featureURLs}
                     /> */}
                 </MapWrap>
-
-                <CardPanel />
             </Container>
         )
     }
