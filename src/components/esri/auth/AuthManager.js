@@ -49,29 +49,68 @@ export default class AuthManager {
     });
   };
 
-  login = () => {
+  createIDManager = () => {
+    return new Promise((resolve, reject) => {
+      loadModules([
+        'esri/identity/IdentityManager',
+        'esri/identity/OAuthInfo'
+      ]).then(([esriId, OAuthInfo]) => {
+        this.idManager = esriId;
+
+        const esriAuthID = localStorage.getItem('esri_auth_id');
+        if (esriAuthID) {
+          // if auth was persisted, just use that
+          this.idManager.initialize(esriAuthID);
+        } else {
+          this.idManager.useSignInPage = !this.loginWithPopup;
+          this.oAuthInfo = new OAuthInfo({
+            appId: this.appId,
+            portalUrl: this.portalUrl,
+            popup: this.loginWithPopup
+          });
+          this.idManager.registerOAuthInfos([this.oAuthInfo]);
+        }
+
+        resolve();
+      })
+      .catch(err => {
+        reject();
+      });
+    })
+  };
+
+  login = (portalUrl = this.portalUrl) => {
+
     return new Promise((resolve, reject) => {
       this.checkLogin().then(
         success => {
-          // resolve without user info if we are skipping auth
-          if (!this.portalUrl) {
-            resolve();
-          }
-
           this.getUser().then(resolve, reject);
         },
         failed => {
-          this.doLogin().then(user => resolve(user), error => reject(error));
+          let persistObj = this.checkPersist();
+          console.log("Rejected login: ", persistObj);
+          if (!this.idManager && persistObj && persistObj.portalUrl) {
+            this.portalUrl = persistObj.portalUrl;
+          } else if (portalUrl) {
+            this.portalUrl = portalUrl;
+          } else {
+            return resolve();
+          }
+
+          this.createIDManager().then(() => {
+            this.doLogin().then(user => resolve(user), error => reject(error));
+          });
         }
       );
     });
   };
 
   checkLogin = () => {
+    console.log('Checking Login: ', this.portalUrl);
     return new Promise((resolve, reject) => {
-      // skip check if login not needed
+      // Reject this if there is no portal URL in the config file
       if (!this.portalUrl) {
-        resolve();
+        reject();
         return;
       }
 
@@ -90,6 +129,7 @@ export default class AuthManager {
   };
 
   doLogin = () => {
+    this.persistAuth();
     return new Promise((resolve, reject) => {
       const sharingUrl = this.portalUrl + '/sharing';
 
@@ -125,31 +165,32 @@ export default class AuthManager {
     });
   };
 
-  persistAuth() {
+  persistAuth = () => {
+    console.log('persistAuth: ', this.idManager);
     // persist auth to a cookie for cross-page goodness
     const json = this.idManager.toJSON();
     localStorage.setItem('esri_auth_id', JSON.stringify(json));
+  };
+
+  checkPersist = () => {
+    let persistObj = JSON.parse(localStorage.getItem('esri_auth_id'));
+    console.log('checkPersist: ', persistObj);
+    if (persistObj && persistObj.oAuthInfos) {
+      return persistObj.oAuthInfos[0];
+    }
+
+    return null;
   }
 
   logout = () => {
     loadModules(['dojo/cookie']).then(([cookie]) => {
-      cookie('esri_auth', '{observer: "logout"}', {
+      cookie('esri_auth', '{esri: "logout"}', {
         expire: -1,
         expires: -1,
         path: '/'
       });
+      localStorage.removeItem('esri_auth_id');
       this.idManager.destroyCredentials();
-
-      // this works for both internal and outside users, whereas signing out of
-      // generic arcgis.com only works for outside users.
-      window.api.logout().then(
-        success => {
-          window.location.reload();
-        },
-        error => {
-          console.error(error);
-        }
-      );
     });
   };
 }

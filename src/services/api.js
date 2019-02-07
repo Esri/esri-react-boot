@@ -9,10 +9,10 @@ export function getAppConfig() {
     });
 }
 
-export function logout() {
+export function logout(portalUrl) {
     return new Promise((resolve, reject) => {
-        this.request.makeRequest({
-            url: `${this.getPortalUrl()}/sharing/rest/oauth2/signout`,
+        makeRequest({
+            url: `${portalUrl}/sharing/rest/oauth2/signout`,
             handleAs: 'text'
         }).then(
             resp => resolve(resp),

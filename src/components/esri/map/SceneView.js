@@ -97,6 +97,7 @@ class SceneView extends Component {
         title: "Temperature on Jan, 4, 2017"
       });
       this.map.add(featureLayer);
+      console.log('FeatureLayer: ', featureLayer);
 
       // When the layer is loaded, query for the extent
       // of all features in the layer that satisfy the

@@ -29,10 +29,10 @@ export const store = initStore();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter basename={basename}>
-        <CalciteThemeProvider>
-          <GlobalStyle />
-          <Route path='/' component={App} />
-        </CalciteThemeProvider>
+      <CalciteThemeProvider>
+        <GlobalStyle />
+        <Route path='/' component={App} />
+      </CalciteThemeProvider>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

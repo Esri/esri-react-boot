@@ -24,32 +24,28 @@ export default (state = initialState, action) => {
       // any JSAPI release could introduce more, so switching to instead only
       // pull off known/needed properties
 
-      const _user = authObject;
-      const user = {
-        fullName: _user.fullName,
-        thumbnail: _user.thumbnail,
-        thumbnailUrl: _user.thumbnailUrl,
-        url: _user.portal.url,
-        username: _user.username
-      };
+      const user = authObject;
+      // const user = {
+      //   fullName: _user.fullName,
+      //   thumbnail: _user.thumbnail,
+      //   thumbnailUrl: _user.thumbnailUrl,
+      //   url: _user.portal.url,
+      //   username: _user.username
+      // };
 
       return {
         ...state,
         user,
-        loaded: true
+        loaded: true,
+        loggedIn: true
       };
 
     case types.AUTH_FAIL:
       return {
         ...state,
         user: null,
-        loaded: true
-      };
-
-    case types.LOGOUT:
-      return {
-        ...state,
-        user: null
+        loaded: true,
+        loggedIn: false
       };
 
     default:
@@ -59,5 +55,17 @@ export default (state = initialState, action) => {
 
 // ACTIONS //
 export const actions = {
-    checkAuth: () => ({type: types.AUTH_CHECK}),
+  checkAuth: (url) => ({
+    type: types.AUTH_CHECK,
+    payload: {
+      portalUrl: url,
+    }
+  }),
+
+  logout: (url) => ({
+    type: types.LOGOUT,
+    payload: {
+      portalUrl: url,
+    }
+  }),
 }
