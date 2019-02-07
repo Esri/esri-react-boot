@@ -1,3 +1,9 @@
+/**
+ * Configure and create the Redux here
+ * includes Saga
+ * @type {Object} This is the store object that Redux uses
+ */
+
 // REDUX IMPORTS //
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -7,7 +13,7 @@ import * as reducers from './';
 
 export function initStore() {
   // Setup Redux dev tools
-  // TODO - temporarily diabled - see https://github.com/zalmoxisus/redux-devtools-extension/issues/619
+  // NOTE - Redux Devtool issue - see https://github.com/zalmoxisus/redux-devtools-extension/issues/619
   const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
   // Setup Redux store

@@ -16,22 +16,7 @@ export const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.AUTH_SUCCESS:
-      const authObject = action.payload;
-
-      console.log('AUTH_SUCCESS: ', authObject)
-
-      // Previously took the approach of deleting unserializable stuff, but
-      // any JSAPI release could introduce more, so switching to instead only
-      // pull off known/needed properties
-
-      const user = authObject;
-      // const user = {
-      //   fullName: _user.fullName,
-      //   thumbnail: _user.thumbnail,
-      //   thumbnailUrl: _user.thumbnailUrl,
-      //   url: _user.portal.url,
-      //   username: _user.username
-      // };
+      const user = action.payload;
 
       return {
         ...state,

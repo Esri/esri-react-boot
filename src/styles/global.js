@@ -16,4 +16,11 @@ export const GlobalStyle = createGlobalStyle`
         letter-spacing: 1px;
         font-size: 16px;
     }
+
+    .esri-layer-list__item{
+      &::before {
+        width: 100%;
+        left: 0;
+      }
+    }
 `;

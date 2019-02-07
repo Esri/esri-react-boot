@@ -86,26 +86,26 @@ class LoadScreen extends Component {
   }
 
   render() {
-      if (!this.props.isLoading && this.state.isAnimating) {
-        return (
-          <Container>
-            <Wrapper>
-              <Loader/>
-            </Wrapper>
-            <Title>
-              <Logo src={logo}></Logo>
-              <Label>Esri-React-Boot</Label>
-            </Title>
-          </Container>
-        )
-      } else if (this.props.isLoading && this.state.isAnimating) {
-        this.playAnimation();
-        return (
-          <FadingContainer delay={animationDelay} duration={animationDuration}/>
-        )
-      } else {
-        return null
-      }
+    if (!this.props.isLoading && this.state.isAnimating) {
+      return (
+        <Container>
+          <Wrapper>
+            <Loader/>
+          </Wrapper>
+          <Title>
+            <Logo src={logo}></Logo>
+            <Label>Esri-React-Boot</Label>
+          </Title>
+        </Container>
+      )
+    } else if (this.props.isLoading && this.state.isAnimating) {
+      this.playAnimation();
+      return (
+        <FadingContainer delay={animationDelay} duration={animationDuration}/>
+      )
+    }
+
+    return null;
   }
 }
 

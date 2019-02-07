@@ -28,7 +28,7 @@ const Container = styled.div`
 `;
 
 // Variables
-const containerID = "scene-view-container";
+const containerID = "map-view-container";
 
 class SceneView extends Component {
 

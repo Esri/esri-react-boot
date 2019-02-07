@@ -7,12 +7,14 @@ function* checkAuth(action) {
   try {
     const authObj = yield call(window.authManager.login, action.payload.portalUrl);
 
+    // Check if the authObj is undefined
     if (authObj) {
       yield put({
           type: types.AUTH_SUCCESS,
           payload: authObj
       });
     } else {
+      // putting a fail call here just means that we didn't need to login
       yield put( {type: types.AUTH_FAIL} );
     }
 
@@ -28,7 +30,6 @@ function* authLogout(action) {
     yield call(logout, action.payload.portalUrl);
     window.location.reload();
   } catch(e) {
-    //yield put( {type: types.AUTH_FAIL} );
     console.error('SAGA ERROR: auth/logout, ', e);
   }
 }

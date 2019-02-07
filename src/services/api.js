@@ -1,3 +1,7 @@
+/**
+ * Some general functions to help with requests
+ */
+
 import { makeRequest } from './request';
 
 export function getAppConfig() {
