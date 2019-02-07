@@ -13,7 +13,6 @@ import TopNavBrand from 'calcite-react/TopNav/TopNavBrand';
 import TopNavTitle from 'calcite-react/TopNav/TopNavTitle';
 import TopNavList from 'calcite-react/TopNav/TopNavList';
 import TopNavLink from 'calcite-react/TopNav/TopNavLink';
-import Button from 'calcite-react/Button';
 import SceneViewExample from './esri/map/SceneViewExample';
 import LoadScreen from './LoadScreen';
 import UserAccount from './UserAccount';
@@ -58,15 +57,13 @@ const NavList = styled(TopNavList)`
   text-align: left;
 `;
 
-// Class //
+// Class
 class Main extends Component {
   signIn = () => {
-    console.log('Sign In Triggered...', window.authManager);
     this.props.checkAuth('https://www.arcgis.com');
   }
 
   signOut = () => {
-    console.log('Sign In Triggered...', window.authManager);
     this.props.logout();
   }
 

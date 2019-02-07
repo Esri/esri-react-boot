@@ -4,11 +4,9 @@ import { logout } from '../../services/api';
 
 // WORKER //
 function* checkAuth(action) {
-  console.log('Saga checkAuth: ', action);
   try {
     const authObj = yield call(window.authManager.login, action.payload.portalUrl);
 
-    console.log('_auth/checkAuth: ', authObj);
     if (authObj) {
       yield put({
           type: types.AUTH_SUCCESS,
@@ -25,7 +23,6 @@ function* checkAuth(action) {
 }
 
 function* authLogout(action) {
-  console.log('Saga logout: ', action);
   try {
     yield call(window.authManager.logout);
     yield call(logout, action.payload.portalUrl);

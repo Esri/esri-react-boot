@@ -1,3 +1,8 @@
+/**
+ * This is an example component used to showcase authentication
+ * @type {Class}
+ */
+
 // React
 import React, { Component } from 'react';
 
@@ -7,10 +12,7 @@ import ArcgisAccount from 'calcite-react/ArcgisAccount';
 import ArcgisAccountMenuItem from 'calcite-react/ArcgisAccount/ArcgisAccountMenuItem';
 import Button from 'calcite-react/Button';
 
-// Styled Components
-import styled from 'styled-components';
-
-// Class //
+// Class
 class UserAccount extends Component {
   render() {
     const signedInActionsComponent = this.props.user ? (

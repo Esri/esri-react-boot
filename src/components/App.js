@@ -24,7 +24,6 @@ class App extends Component {
     if (this.props.appConfig &&
       this.props.appConfig.loaded !== prevProps.appConfig.loaded)
     {
-      console.log('The loaded config: ', this.props.appConfig);
       // Attach the AuthManager to the window, it doesn't need to be rendered
       window.authManager = new AuthManager(
         this.props.appConfig.appId,

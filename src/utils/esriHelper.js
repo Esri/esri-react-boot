@@ -1,3 +1,4 @@
+// Esri Loader
 import * as esriLoader from 'esri-loader';
 
 /**
@@ -54,7 +55,6 @@ function initApi(portalUrl, jsapiV4) {
 }
 
 export function createView(mapConfig, node, isScene = false) {
-  console.log('createView - isScene? ', isScene);
     return new Promise((resolve, reject) => {
         if (!esriLoader.isLoaded()) {
             reject('JSAPI is not yet loaded');
