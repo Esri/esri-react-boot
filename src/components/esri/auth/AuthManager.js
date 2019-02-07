@@ -1,6 +1,13 @@
+// Esri Loader
 import { loadModules } from 'esri-loader';
+// Esri Helper Functions
 import { bootstrapJSAPI } from '../../../utils/esriHelper';
 
+/**
+ * Class to help with Authentication
+ * This is a non-rendered class that is usually attached to the window
+ * @type {Class}
+ */
 export default class AuthManager {
   constructor(appId, portalUrl, jsapiUrl, jsapiV4, loginWithPopup) {
     this.appId = appId;
@@ -10,38 +17,21 @@ export default class AuthManager {
     this.loginWithPopup = loginWithPopup;
   }
 
+  /**
+   * Use this to start up the JS API via the AuthManager class
+   * @return {Promise} Resolves if there is no portal url, which means no login required
+   *                   or there is a portal url and the IdentityManager is setup correctly
+   */
   startup = () => {
     return new Promise((resolve, reject) => {
       bootstrapJSAPI(this.portalUrl, this.jsapiUrl, this.jsapiV4)
         .then(success => {
           // Check if we need to authenticate
           if (!this.portalUrl) {
-            resolve();
-            return;
+            return resolve();
           }
           // If we need authentication then set up IDManager
-          loadModules([
-            'esri/identity/IdentityManager',
-            'esri/identity/OAuthInfo'
-          ]).then(([esriId, OAuthInfo]) => {
-            this.idManager = esriId;
-
-            const esriAuthID = localStorage.getItem('esri_auth_id');
-            if (esriAuthID) {
-              // if auth was persisted, just use that
-              this.idManager.initialize(esriAuthID);
-            } else {
-              this.idManager.useSignInPage = !this.loginWithPopup;
-              this.oAuthInfo = new OAuthInfo({
-                appId: this.appId,
-                portalUrl: this.portalUrl,
-                popup: this.loginWithPopup
-              });
-              this.idManager.registerOAuthInfos([this.oAuthInfo]);
-            }
-
-            resolve();
-          });
+          this.createIDManager().then(resolve());
         })
         .catch(err => {
           reject();
@@ -49,6 +39,11 @@ export default class AuthManager {
     });
   };
 
+  /**
+   * Method to create Esri JS API IdentityManager
+   * This is called in startup but can be called independently if needed
+   * @return {Promise} Resolves after IdentityManager is setup
+   */
   createIDManager = () => {
     return new Promise((resolve, reject) => {
       loadModules([
@@ -79,8 +74,15 @@ export default class AuthManager {
     })
   };
 
+  /**
+   * Main login function
+   * This will see if the user has persistent login info
+   * and if not it will run the login method
+   * @param  {string}   [portalUrl=this.portalUrl]   will default to config portalUrl
+   * @return {Promise}                               will resolve if user is logged in or
+   *                                                 conditions are met on portal url
+   */
   login = (portalUrl = this.portalUrl) => {
-
     return new Promise((resolve, reject) => {
       this.checkLogin().then(
         success => {
@@ -88,15 +90,19 @@ export default class AuthManager {
         },
         failed => {
           let persistObj = this.checkPersist();
-          console.log("Rejected login: ", persistObj);
+
           if (!this.idManager && persistObj && persistObj.portalUrl) {
+            // if there is persistent login info grab that portal url
             this.portalUrl = persistObj.portalUrl;
           } else if (portalUrl) {
+            // if a portal url was passed in as a param grab that
             this.portalUrl = portalUrl;
           } else {
+            // no portal, we don't need to login and can return
             return resolve();
           }
 
+          // use the aquired portal url to setup a new ID Manager and login
           this.createIDManager().then(() => {
             this.doLogin().then(user => resolve(user), error => reject(error));
           });
@@ -105,13 +111,15 @@ export default class AuthManager {
     });
   };
 
+  /**
+   * Check if user is logged in already via persistent login info
+   * @return {Promise} will reject if no portal url or there is a login/user info error
+   */
   checkLogin = () => {
-    console.log('Checking Login: ', this.portalUrl);
     return new Promise((resolve, reject) => {
       // Reject this if there is no portal URL in the config file
       if (!this.portalUrl) {
-        reject();
-        return;
+        return reject();
       }
 
       const sharingUrl = this.portalUrl + '/sharing';
@@ -128,8 +136,14 @@ export default class AuthManager {
     });
   };
 
+  /**
+   * Method for login process
+   * @return {Promise} Resolves if we user info from login
+   */
   doLogin = () => {
+    // we can store the portal url here so the browser rememebers us on refresh
     this.persistAuth();
+
     return new Promise((resolve, reject) => {
       const sharingUrl = this.portalUrl + '/sharing';
 
@@ -142,6 +156,10 @@ export default class AuthManager {
     });
   };
 
+  /**
+   * Get user info, part of login process
+   * @return {Promise} Resolves once we get user info
+   */
   getUser = () => {
     return new Promise((resolve, reject) => {
       loadModules(['esri/portal/Portal']).then(([Portal]) => {
@@ -165,16 +183,22 @@ export default class AuthManager {
     });
   };
 
+  /**
+   * Method to store the login info
+   */
   persistAuth = () => {
-    console.log('persistAuth: ', this.idManager);
     // persist auth to a cookie for cross-page goodness
     const json = this.idManager.toJSON();
     localStorage.setItem('esri_auth_id', JSON.stringify(json));
   };
 
+  /**
+   * Get method for the stored login info
+   * @return {Object} The login info object, can be null
+   */
   checkPersist = () => {
     let persistObj = JSON.parse(localStorage.getItem('esri_auth_id'));
-    console.log('checkPersist: ', persistObj);
+
     if (persistObj && persistObj.oAuthInfos) {
       return persistObj.oAuthInfos[0];
     }
@@ -182,6 +206,9 @@ export default class AuthManager {
     return null;
   }
 
+  /**
+   * Method for logging out
+   */
   logout = () => {
     loadModules(['dojo/cookie']).then(([cookie]) => {
       cookie('esri_auth', '{esri: "logout"}', {
