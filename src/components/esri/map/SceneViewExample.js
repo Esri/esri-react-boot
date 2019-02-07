@@ -29,14 +29,14 @@ const Container = styled.div`
 
 // Variables
 const containerID = "scene-view-container";
-const isScene = true;
 
 class SceneView extends Component {
 
   componentDidMount() {
     this.startup(
       this.props.mapConfig,
-      containerID
+      containerID,
+      this.props.is3DScene
     );
   }
 
@@ -52,7 +52,7 @@ class SceneView extends Component {
   }
 
   // ESRI JSAPI
-  startup = (mapConfig, node) => {
+  startup = (mapConfig, node, isScene = false) => {
     createView(mapConfig, node, isScene).then(
       response => {
         this.init(response);
@@ -97,7 +97,6 @@ class SceneView extends Component {
         title: "Temperature on Jan, 4, 2017"
       });
       this.map.add(featureLayer);
-      console.log('FeatureLayer: ', featureLayer);
 
       // When the layer is loaded, query for the extent
       // of all features in the layer that satisfy the
@@ -105,7 +104,6 @@ class SceneView extends Component {
       // extent to the returned extent of all features.
 
       featureLayer.when(function() {
-        console.log('The feature layer was added and loaded!');
         featureLayer.definitionExpression = createDefinitionExpression(
           "");
         zoomToLayer(featureLayer);
@@ -251,14 +249,14 @@ class SceneView extends Component {
 }
 
 const mapStateToProps = state => ({
-    config: state.config,
-    map: state.map
+  config: state.config,
+  map: state.map
 });
 
 const mapDispatchToProps = function (dispatch) {
-    return bindActionCreators({
-        ...mapActions
-    }, dispatch);
+  return bindActionCreators({
+    ...mapActions
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps) (SceneView);

@@ -14,8 +14,7 @@ import TopNavTitle from 'calcite-react/TopNav/TopNavTitle';
 import TopNavList from 'calcite-react/TopNav/TopNavList';
 import TopNavLink from 'calcite-react/TopNav/TopNavLink';
 import Button from 'calcite-react/Button';
-import SceneView from './esri/map/SceneView';
-//import MapView from './esri/map/MapView';
+import SceneViewExample from './esri/map/SceneViewExample';
 import LoadScreen from './LoadScreen';
 import UserAccount from './UserAccount';
 import logo from '../styles/images/Esri-React-Logo.svg';
@@ -24,21 +23,21 @@ import logo from '../styles/images/Esri-React-Logo.svg';
 import styled from 'styled-components';
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
 `;
 
-const MapWrap = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
+const MapWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
 `;
 
 const Logo = styled(TopNavBrand)`
@@ -93,33 +92,30 @@ class Main extends Component {
           />
         </Nav>
 
-        <MapWrap>
-          <SceneView
+        <MapWrapper>
+          <SceneViewExample
             mapConfig={this.props.appConfig.sceneConfig}
-            mapState={this.props.map}
-            user={this.props.auth.user}
             onMapLoaded={this.props.mapLoaded}
-            updateExtent={this.props.updateExtent}
-            features={this.props.features}
+            is3DScene={true}
           />
-        </MapWrap>
+        </MapWrapper>
       </Container>
     )
   }
 }
 
 const mapStateToProps = state => ({
-    map: state.map,
-    auth: state.auth,
-    appConfig: state.config,
-    config: state.config
+  map: state.map,
+  auth: state.auth,
+  appConfig: state.config,
+  config: state.config
 })
 
 const mapDispatchToProps = function (dispatch) {
-    return bindActionCreators({
+  return bindActionCreators({
     ...mapActions,
     ...authActions,
-    }, dispatch);
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)
