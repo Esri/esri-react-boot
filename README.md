@@ -3,6 +3,8 @@
 </p>
 
 # Esri ArcGIS JS API + React + Redux
+Detailed documentation can be found on the wiki: https://github.com/r-watkins/esri-react-boot/wiki
+
 <img src="http://psgd.esri.com/img/esri-react-boot/poweredByEsri.svg" width="150" height="auto"/>
 
 ## Features
