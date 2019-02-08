@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://psgd.esri.com/img/esri-react-boot/Esri-React-Boot-Logo.svg" width="500" height="auto"/>
+  
 </p>
 
 # Esri ArcGIS JS API + React + Redux
