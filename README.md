@@ -26,6 +26,7 @@ This project uses a number of open source libraries. We encourage you to become 
 | Create-React-App | https://facebook.github.io/create-react-app/ |
 | Redux-Saga | https://github.com/redux-saga/redux-saga |
 | ArcGIS JS API | https://developers.arcgis.com/javascript/ |
+| Styled-Components | https://www.styled-components.com/ |
 | Calcite-React | https://calcite-react.netlify.com/arcgis-account |
 
 ## Usage
