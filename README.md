@@ -5,7 +5,9 @@
 # Esri ArcGIS JS API + React + Redux
 Detailed documentation can be found on the wiki: https://github.com/r-watkins/esri-react-boot/wiki
 
-<img src="http://psgd.esri.com/img/esri-react-boot/poweredByEsri.svg#1" width="150" height="auto"/>
+<a href="https://www.esri.com/en-us/home">
+   <img src="http://psgd.esri.com/img/esri-react-boot/poweredByEsri.svg#1" width="150" height="auto"/>
+</a>
 
 ## Features
 
@@ -25,7 +27,9 @@ This project uses a number of open source libraries. We encourage you to become 
 | Redux | https://redux.js.org/ |
 | Create-React-App | https://facebook.github.io/create-react-app/ |
 | Redux-Saga | https://github.com/redux-saga/redux-saga |
+| esri-loader | https://github.com/Esri/esri-loader |
 | ArcGIS JS API | https://developers.arcgis.com/javascript/ |
+| Styled-Components | https://www.styled-components.com/ |
 | Calcite-React | https://calcite-react.netlify.com/arcgis-account |
 
 ## Usage
