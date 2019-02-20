@@ -51,6 +51,7 @@ const Logo = styled(TopNavBrand)`
 
 const Nav = styled(TopNav)`
   background-color: ${props => props.theme.palette.offWhite};
+  z-index: 5
 `;
 
 const NavList = styled(TopNavList)`
@@ -76,9 +77,9 @@ class Main extends Component {
           <Logo href="#" src={logo} />
           <TopNavTitle href="#">ArcGIS JS API + React Boot</TopNavTitle>
           <NavList>
-            <TopNavLink href="#">Github</TopNavLink>
-            <TopNavLink href="#">Docs</TopNavLink>
-            <TopNavLink href="#">Calcite-React</TopNavLink>
+            <TopNavLink href="https://github.com/r-watkins/esri-react-boot">Github</TopNavLink>
+            <TopNavLink href="https://github.com/r-watkins/esri-react-boot/wiki">Docs</TopNavLink>
+            <TopNavLink href="https://calcite-react.netlify.com/">Calcite-React</TopNavLink>
           </NavList>
           <UserAccount
             user={this.props.auth.user}
