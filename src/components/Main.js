@@ -93,7 +93,7 @@ class Main extends Component {
         <MapWrapper>
           <SceneViewExample
             onMapLoaded={this.props.mapLoaded}
-            mapConfig={this.props.appConfig.sceneConfig}
+            mapConfig={this.props.config.sceneConfig}
             is3DScene={true}
           />
         </MapWrapper>
@@ -105,8 +105,7 @@ class Main extends Component {
 const mapStateToProps = state => ({
   map: state.map,
   auth: state.auth,
-  appConfig: state.config,
-  config: state.config
+  config: state.config,
 })
 
 const mapDispatchToProps = function (dispatch) {
