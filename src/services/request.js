@@ -1,14 +1,14 @@
 function status(response) {
   if (response.status >= 200 && response.status < 300) {
-    return Promise.resolve(response)
+    return Promise.resolve(response);
   } else {
-    return Promise.reject(new Error(response.statusText))
+    return Promise.reject(new Error(response.statusText));
   }
 }
 
 function handleResponse(handleAs, response) {
   switch (handleAs) {
-    case 'text':
+    case "text":
       return response.text();
     default:
       return response.json();
@@ -24,8 +24,8 @@ function objectToUrlSearchParams(obj) {
   }
 
   // add f=json if not included
-  if (!body.has('f')) {
-    body.append('f', 'json');
+  if (!body.has("f")) {
+    body.append("f", "json");
   }
 
   return body.toString();
@@ -35,7 +35,7 @@ function getHeaders(isFormData) {
   const headers = {};
 
   if (!isFormData) {
-    headers['content-type'] = 'application/x-www-form-urlencoded';
+    headers["content-type"] = "application/x-www-form-urlencoded";
   }
 
   return new Headers(headers);
@@ -62,34 +62,35 @@ export function makeRequest(params) {
     const data = params.data || {};
     const headers = getHeaders(params.isFormData);
     const options = {
-      method: params.method || 'get',
+      method: params.method || "get",
       headers
     };
 
     if (!params.hideCredentials) {
-      options.credentials = 'include';
+      options.credentials = "include";
     }
 
     let body = getRequestBody(data, params.isFormData);
 
-    if (options.method === 'get') {
+    if (options.method === "get") {
       url = `${url}?${body}`;
     } else {
       options.body = body;
     }
 
     fetch(url, options)
-    .then(status)
-    .then(handleResponse.bind(null, params.handleAs))
-    .then(function(data) {
-      // Handle successful requests that are actually errors...
-      if (data.error) {
-        reject(data.error);
-        return;
-      }
-      resolve(data);
-    }).catch(function(error) {
-      reject(error);
-    });
+      .then(status)
+      .then(handleResponse.bind(null, params.handleAs))
+      .then(function(data) {
+        // Handle successful requests that are actually errors...
+        if (data.error) {
+          reject(data.error);
+          return;
+        }
+        resolve(data);
+      })
+      .catch(function(error) {
+        reject(error);
+      });
   });
 }
