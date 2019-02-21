@@ -30,7 +30,7 @@ const Container = styled.div`
 // Variables
 const containerID = "map-view-container";
 
-class SceneView extends Component {
+class SceneViewExample extends Component {
 
   componentDidMount() {
     this.startup(
@@ -259,4 +259,4 @@ const mapDispatchToProps = function (dispatch) {
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (SceneView);
+export default connect(mapStateToProps, mapDispatchToProps) (SceneViewExample);
