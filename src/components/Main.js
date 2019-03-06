@@ -52,12 +52,9 @@ const MapWrapper = styled.div`
 
 const Logo = styled(TopNavBrand)`
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  padding: 0.3em;
-  margin: 0 1.5em;
-  background: rgba(138, 138, 138, 0.5);
-  border-radius: 100%;
+  & img {
+    height: 55px;
+  }
 `;
 
 const Nav = styled(TopNav)`
