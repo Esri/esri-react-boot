@@ -30,7 +30,7 @@ This project uses a number of open source libraries. We encourage you to become 
 | esri-loader | https://github.com/Esri/esri-loader |
 | ArcGIS JS API | https://developers.arcgis.com/javascript/ |
 | Styled-Components | https://www.styled-components.com/ |
-| Calcite-React | https://calcite-react.netlify.com |
+| Calcite-React | https://github.com/Esri/calcite-react |
 
 ## Usage
 
