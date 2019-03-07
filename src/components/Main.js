@@ -85,8 +85,8 @@ class Main extends Component {
           <Logo href="#" src={logo} />
           <TopNavTitle href="#">ArcGIS JS API + React Boot</TopNavTitle>
           <NavList>
-            <TopNavLink href="https://github.com/r-watkins/esri-react-boot">Github</TopNavLink>
-            <TopNavLink href="https://github.com/r-watkins/esri-react-boot/wiki">Docs</TopNavLink>
+            <TopNavLink href="https://github.com/Esri/esri-react-boot">Github</TopNavLink>
+            <TopNavLink href="https://github.com/Esri/esri-react-boot/wiki">Docs</TopNavLink>
             <TopNavLink href="https://calcite-react.netlify.com/">Calcite-React</TopNavLink>
           </NavList>
           <UserAccount
