@@ -105,3 +105,16 @@ export function makeRequest(params) {
       });
   });
 }
+
+/**
+ * Make a request for the App Config [public/config] with makeRequest()
+ * @return { Promise}        Promise returned by makeRequest()
+ */
+export function getAppConfig() {
+  return new Promise((resolve, reject) => {
+    makeRequest({
+      url: `/config.json`,
+      method: "get"
+    }).then(resp => resolve(resp));
+  });
+}

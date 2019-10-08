@@ -10,28 +10,28 @@
 // limitations under the License.​
 
 // React //
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
 // Redux //
-import { Provider } from 'react-redux';
-import { initStore } from './redux/store';
+import { Provider } from "react-redux";
+import { initStore } from "./redux/store";
 
 // React Router //
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from "react-router-dom";
 
 // Components //
-import { homepage } from '../package.json';
-import App from './components/App';
+import { homepage } from "../package.json";
+import App from "./components/App";
 
 // Styles //
-import CalciteThemeProvider from 'calcite-react/CalciteThemeProvider';
-import { GlobalStyle } from './styles/global';
-import './styles/fonts.css';
+import CalciteThemeProvider from "calcite-react/CalciteThemeProvider";
+import { GlobalStyle } from "./styles/global";
+import "./styles/fonts.css";
 
 // App runs at the root locally, but under /{homepage} in production
 let basename;
-process.env.NODE_ENV !== 'production' ? (basename = '') : (basename = homepage);
+process.env.NODE_ENV !== "production" ? (basename = "") : (basename = homepage);
 
 // Create Redux Store
 export const store = initStore();
@@ -42,9 +42,9 @@ ReactDOM.render(
     <BrowserRouter basename={basename}>
       <CalciteThemeProvider>
         <GlobalStyle />
-        <Route path='/' component={App} />
+        <Route path="/" component={App} />
       </CalciteThemeProvider>
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
-)
+  document.getElementById("root")
+);

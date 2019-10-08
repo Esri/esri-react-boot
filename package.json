@@ -2,11 +2,14 @@
   "name": "react-jsapi-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/react-boot",
+  "homepage": "/",
   "dependencies": {
+    "@esri/arcgis-rest-auth": "^2.4.0",
+    "@esri/arcgis-rest-portal": "^2.4.0",
+    "@esri/arcgis-rest-request": "^2.4.0",
     "calcite-react": "^0.40.0",
-    "classnames": "^2.2.6",
     "esri-loader": "^2.10.0",
+    "js-cookie": "^2.2.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.0",
@@ -20,10 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "react-scripts run lint",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "react-scripts": "^3.1.1"

@@ -19,19 +19,18 @@
 // by listening for any new props (using componentWillReceiveProps)
 
 // React
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 // Redux
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actions as mapActions } from '../../../redux/reducers/map';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actions as mapActions } from "../../../redux/reducers/map";
 
 // ESRI
-import { loadModules } from 'esri-loader';
-import { createView } from '../../../utils/esriHelper';
+import { loadMap } from "../../../utils/map";
 
 // Styled Components
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
   height: 100%;
@@ -42,13 +41,20 @@ const Container = styled.div`
 const containerID = "map-view-container";
 
 class Map extends Component {
+  constructor(props) {
+    super(props);
+    // a ref to the DOM node where we want to create the map
+    // see: https://reactjs.org/docs/refs-and-the-dom.html
+    this.mapNode = React.createRef();
+  }
 
   componentDidMount() {
-    this.startup(
-      this.props.mapConfig,
-      containerID,
-      this.props.is3DScene
-    );
+    loadMap(containerID, this.props.mapConfig).then(view => {
+      // hold onto a reference to the map view
+      // NOTE: we don't use props/state for this b/c we don't want to trigger a re-render
+      // see https://medium.freecodecamp.org/where-do-i-belong-a-guide-to-saving-react-component-data-in-state-store-static-and-this-c49b335e2a00#978c
+      this._view = view;
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -57,65 +63,7 @@ class Map extends Component {
   }
 
   render() {
-    return (
-      <Container ref="mapDiv" id={containerID}></Container>
-    );
-  }
-
-  // ESRI JSAPI
-  startup = (mapConfig, node, isScene = false) => {
-    createView(mapConfig, node, isScene).then(
-      response => {
-        this.init(response);
-        this.setupEventHandlers(this.map);
-        this.setupWidgetsAndLayers();
-        this.finishedLoading();
-      },
-      error => {
-        console.error("maperr", error);
-        window.setTimeout( () => {
-          this.startup(mapConfig, node);
-        }, 1000);
-      })
-  }
-
-  finishedLoading = () => {
-    // Update app state only after map and widgets are loaded
-    this.props.onMapLoaded();
-  }
-
-  init = (response) => {
-    this.view = response.view
-    this.map = response.view.map;
-  }
-
-  setupWidgetsAndLayers = () => {
-    loadModules([
-
-    ])
-    .then( ([
-
-    ]) => {
-
-      //
-      // JSAPI Map Widgets and Layers get loaded here!
-      //
-
-    });
-  }
-
-  setupEventHandlers = (map) => {
-    loadModules([
-
-    ], (
-
-    ) => {
-
-      //
-      // JSAPI Map Event Handlers go here!
-      //
-
-    });
+    return <Container ref="mapDiv" id={containerID}></Container>;
   }
 }
 
@@ -124,10 +72,16 @@ const mapStateToProps = state => ({
   map: state.map
 });
 
-const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators({
-    ...mapActions
-  }, dispatch);
-}
+const mapDispatchToProps = function(dispatch) {
+  return bindActionCreators(
+    {
+      ...mapActions
+    },
+    dispatch
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps) (Map);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Map);

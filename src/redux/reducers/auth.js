@@ -11,57 +11,62 @@
 
 // ACTION TYPES //
 export const types = {
-    AUTH_SUCCESS: 'AUTH_SUCCESS',
-    AUTH_FAIL: 'AUTH_FAIL',
-    AUTH_CHECK: 'AUTH_CHECK',
-    LOGOUT: 'LOGOUT',
-}
+  AUTH_SUCCESS: "AUTH_SUCCESS",
+  AUTH_FAIL: "AUTH_FAIL",
+  AUTH_CHECK: "AUTH_CHECK",
+  AUTH_COMPLETE: "AUTH_COMPLETE",
+  LOGOUT: "LOGOUT"
+};
 
 // REDUCERS //
 export const initialState = {
-    user: null,
-    loaded: false,
-    loggedIn: false,
-}
+  user: null,
+  portal: null,
+  token: null,
+  loggedIn: false
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.AUTH_SUCCESS:
-      const user = action.payload;
+      const { user, portal, token } = action.payload;
 
       return {
-        ...state,
         user,
-        loaded: true,
+        portal,
+        token,
         loggedIn: true
       };
 
     case types.AUTH_FAIL:
       return {
-        ...state,
         user: null,
-        loaded: true,
+        portal: null,
+        token: null,
         loggedIn: false
       };
 
     default:
       return state;
   }
-}
+};
 
 // ACTIONS //
 export const actions = {
-  checkAuth: (url) => ({
+  checkAuth: options => ({
     type: types.AUTH_CHECK,
-    payload: {
-      portalUrl: url,
-    }
+    payload: options
   }),
 
-  logout: (url) => ({
+  completeAuth: options => ({
+    type: types.AUTH_COMPLETE,
+    payload: options
+  }),
+
+  logout: sessionId => ({
     type: types.LOGOUT,
     payload: {
-      portalUrl: url,
+      sessionId: sessionId
     }
-  }),
-}
+  })
+};

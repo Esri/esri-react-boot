@@ -10,27 +10,27 @@
 // limitations under the License.​
 
 // React
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 // Redux
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { actions as mapActions } from '../redux/reducers/map';
-import { actions as authActions } from '../redux/reducers/auth';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { actions as mapActions } from "../redux/reducers/map";
+import { actions as authActions } from "../redux/reducers/auth";
 
 // Components
-import TopNav from 'calcite-react/TopNav';
-import TopNavBrand from 'calcite-react/TopNav/TopNavBrand';
-import TopNavTitle from 'calcite-react/TopNav/TopNavTitle';
-import TopNavList from 'calcite-react/TopNav/TopNavList';
-import TopNavLink from 'calcite-react/TopNav/TopNavLink';
-import SceneViewExample from './esri/map/SceneViewExample';
-import LoadScreen from './LoadScreen';
-import UserAccount from './UserAccount';
-import logo from '../styles/images/Esri-React-Logo.svg';
+import TopNav from "calcite-react/TopNav";
+import TopNavBrand from "calcite-react/TopNav/TopNavBrand";
+import TopNavTitle from "calcite-react/TopNav/TopNavTitle";
+import TopNavList from "calcite-react/TopNav/TopNavList";
+import TopNavLink from "calcite-react/TopNav/TopNavLink";
+import Map from "./esri/map/Map";
+import LoadScreen from "./LoadScreen";
+import UserAccount from "./UserAccount";
+import logo from "../styles/images/Esri-React-Logo.svg";
 
 // Styled Components
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -58,8 +58,10 @@ const Logo = styled(TopNavBrand)`
 `;
 
 const Nav = styled(TopNav)`
-  background-color: ${props => props.theme.palette.offWhite};
-  z-index: 5
+  ${"" /* background-color: ${props => props.theme.palette.offWhite}; */}
+  && {
+    z-index: 5;
+  }
 `;
 
 const NavList = styled(TopNavList)`
@@ -69,12 +71,18 @@ const NavList = styled(TopNavList)`
 // Class
 class Main extends Component {
   signIn = () => {
-    this.props.checkAuth('https://www.arcgis.com');
-  }
+    const { appId, sessionId, loginWithPopup } = this.props.config;
+    this.props.checkAuth({
+      clientId: appId,
+      sessionId,
+      popup: loginWithPopup,
+      signInRequest: true
+    });
+  };
 
   signOut = () => {
-    this.props.logout();
-  }
+    this.props.logout(this.props.config.sessionId);
+  };
 
   render() {
     return (
@@ -85,13 +93,20 @@ class Main extends Component {
           <Logo href="#" src={logo} />
           <TopNavTitle href="#">ArcGIS JS API + React Boot</TopNavTitle>
           <NavList>
-            <TopNavLink href="https://github.com/Esri/esri-react-boot">Github</TopNavLink>
-            <TopNavLink href="https://github.com/Esri/esri-react-boot/wiki">Docs</TopNavLink>
-            <TopNavLink href="https://calcite-react.netlify.com/">Calcite-React</TopNavLink>
+            <TopNavLink href="https://github.com/Esri/esri-react-boot">
+              Github
+            </TopNavLink>
+            <TopNavLink href="https://github.com/Esri/esri-react-boot/wiki">
+              Docs
+            </TopNavLink>
+            <TopNavLink href="https://calcite-react.netlify.com/">
+              Calcite-React
+            </TopNavLink>
           </NavList>
           <UserAccount
             user={this.props.auth.user}
-            portal={this.props.auth.user ? this.props.auth.user.portal : null}
+            portal={this.props.auth.portal}
+            token={this.props.auth.token}
             loggedIn={this.props.auth.loggedIn}
             signIn={this.signIn}
             signOut={this.signOut}
@@ -99,28 +114,34 @@ class Main extends Component {
         </Nav>
 
         <MapWrapper>
-          <SceneViewExample
+          <Map
             onMapLoaded={this.props.mapLoaded}
             mapConfig={this.props.config.sceneConfig}
             is3DScene={true}
           />
         </MapWrapper>
       </Container>
-    )
+    );
   }
 }
 
 const mapStateToProps = state => ({
   map: state.map,
   auth: state.auth,
-  config: state.config,
-})
+  config: state.config
+});
 
-const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators({
-    ...mapActions,
-    ...authActions,
-  }, dispatch);
-}
+const mapDispatchToProps = function(dispatch) {
+  return bindActionCreators(
+    {
+      ...mapActions,
+      ...authActions
+    },
+    dispatch
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);

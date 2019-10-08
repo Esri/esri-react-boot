@@ -15,13 +15,13 @@
  */
 
 // React
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 // Components
-import TopNavActionsList from 'calcite-react/TopNav/TopNavActionsList';
-import ArcgisAccount from 'calcite-react/ArcgisAccount';
-import ArcgisAccountMenuItem from 'calcite-react/ArcgisAccount/ArcgisAccountMenuItem';
-import Button from 'calcite-react/Button';
+import TopNavActionsList from "calcite-react/TopNav/TopNavActionsList";
+import ArcgisAccount from "calcite-react/ArcgisAccount";
+import ArcgisAccountMenuItem from "calcite-react/ArcgisAccount/ArcgisAccountMenuItem";
+import Button from "calcite-react/Button";
 
 // Class
 class UserAccount extends Component {
@@ -31,27 +31,30 @@ class UserAccount extends Component {
         <ArcgisAccount
           user={this.props.user}
           portal={this.props.portal}
-          onRequestSwitchAccount={() => console.log('switch account clicked')}
+          token={this.props.token}
+          onRequestSwitchAccount={() => console.log("switch account clicked")}
           onRequestSignOut={this.props.signOut}
         >
           <ArcgisAccountMenuItem
-            onClick={() => console.log('Profile & Settings clicked')}
+            onClick={() => console.log("Profile & Settings clicked")}
           >
             Profile & Settings
           </ArcgisAccountMenuItem>
-          <ArcgisAccountMenuItem onClick={() => console.log('My Esri clicked')}>
+          <ArcgisAccountMenuItem onClick={() => console.log("My Esri clicked")}>
             My Esri
           </ArcgisAccountMenuItem>
-          <ArcgisAccountMenuItem onClick={() => console.log('Training clicked')}>
+          <ArcgisAccountMenuItem
+            onClick={() => console.log("Training clicked")}
+          >
             Training
           </ArcgisAccountMenuItem>
           <ArcgisAccountMenuItem
-            onClick={() => console.log('Community & Forums clicked')}
+            onClick={() => console.log("Community & Forums clicked")}
           >
             Community & Forums
           </ArcgisAccountMenuItem>
           <ArcgisAccountMenuItem
-            onClick={() => console.log('ArcGIS Online clicked')}
+            onClick={() => console.log("ArcGIS Online clicked")}
           >
             ArcGIS Online
           </ArcgisAccountMenuItem>
@@ -61,22 +64,17 @@ class UserAccount extends Component {
 
     const signedOutActionsComponent = (
       <TopNavActionsList>
-        <Button
-          clear
-          onClick={this.props.signIn}
-        >
+        <Button clear onClick={this.props.signIn}>
           Sign In
         </Button>
       </TopNavActionsList>
     );
 
-    let outputComponent = this.props.loggedIn ?
-      signedInActionsComponent :
-      signedOutActionsComponent;
+    let outputComponent = this.props.loggedIn
+      ? signedInActionsComponent
+      : signedOutActionsComponent;
 
-    return (
-      <div>{outputComponent}</div>
-    )
+    return <div>{outputComponent}</div>;
   }
 }
 

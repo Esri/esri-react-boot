@@ -9,28 +9,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.​
 
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { getAppConfig } from '../../services/api';
-import { types as configTypes } from '../reducers/config';
+import { call, put, takeLatest } from "redux-saga/effects";
+import { types as configTypes } from "../reducers/config";
+import { getAppConfig } from "../../utils/request";
 
 // WORKER //
-function* fetchConfig (action) {
-    try {
-        // call API to fetch config
-        const config = yield call(getAppConfig);
+function* fetchConfig(action) {
+  try {
+    // call use request to fetch config
+    const config = yield call(getAppConfig);
 
-        // Put config in store
-        yield put({
-            type: configTypes.SET_CONFIG,
-            payload: config
-        });
+    console.log("fetchConfig config: ", config);
 
-    } catch (e) {
-        console.log('SAGA ERROR: config/fetchConfig, ', e);
-    }
+    // Put config in store
+    yield put({
+      type: configTypes.SET_CONFIG,
+      payload: config
+    });
+  } catch (e) {
+    console.error("SAGA ERROR: config/fetchConfig, ", e);
+  }
 }
 
 // WATCHER //
 export function* watchFetchConfig() {
-    yield takeLatest(configTypes.CONFIG_FETCH, fetchConfig);
+  yield takeLatest(configTypes.CONFIG_FETCH, fetchConfig);
 }

@@ -10,6 +10,7 @@
 
   "appId": "hkdtqXBMmZ8JJ5tD",
   "portalUrl": "http://prof-services.maps.arcgis.com",
+  "enableSignIn": true,
 
   "sessionId": "esri-react-boot_session",
 

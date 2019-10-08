@@ -9,44 +9,83 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.​
 
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { types } from '../reducers/auth';
-import { logout } from '../../services/api';
+import { call, put, takeLatest } from "redux-saga/effects";
+import { types } from "../reducers/auth";
+import {
+  signIn,
+  completeSignIn,
+  signOut,
+  restoreSession
+} from "../../utils/session";
 
 // WORKER //
 function* checkAuth(action) {
   try {
-    const authObj = yield call(window.authManager.login, action.payload.portalUrl);
+    //const user = yield call(signIn, action.payload);
+    let authInfos = yield call(restoreSession, action.payload.sessionId);
+
+    if (!authInfos) {
+      authInfos = yield call(signIn, action.payload);
+    }
+
+    console.log("checkAuth: ", authInfos);
 
     // Check if the authObj is undefined
-    if (authObj) {
+    if (authInfos) {
       yield put({
-          type: types.AUTH_SUCCESS,
-          payload: authObj
+        type: types.AUTH_SUCCESS,
+        payload: authInfos
       });
     } else {
       // putting a fail call here just means that we didn't need to login
-      yield put( {type: types.AUTH_FAIL} );
+      yield put({ type: types.AUTH_FAIL });
     }
+  } catch (e) {
+    yield put({ type: types.AUTH_FAIL });
+    console.error("SAGA ERROR: auth/checkAuth, ", e);
+  }
+}
 
-  } catch(e) {
-    yield put( {type: types.AUTH_FAIL} );
-    console.error('SAGA ERROR: auth/checkAuth, ', e);
+function* completeAuth(action) {
+  try {
+    const authInfos = yield call(completeSignIn, action.payload);
+
+    // temp set to deliver over https on netlify
+    authInfos.portal.allSSL = true;
+
+    console.log("COMPLETE Auth: ", authInfos);
+
+    //yield call(saveSession, action.payload.sessionId);
+
+    // Check if the authObj is undefined
+    if (authInfos) {
+      yield put({
+        type: types.AUTH_SUCCESS,
+        payload: authInfos
+      });
+    } else {
+      // putting a fail call here just means that we didn't need to login
+      yield put({ type: types.AUTH_FAIL });
+    }
+  } catch (e) {
+    yield put({ type: types.AUTH_FAIL });
+    console.error("SAGA ERROR: auth/checkAuth, ", e);
   }
 }
 
 function* authLogout(action) {
   try {
-    yield call(window.authManager.logout);
-    yield call(logout, action.payload.portalUrl);
+    yield call(signOut, action.payload.sessionId);
+
     window.location.reload();
-  } catch(e) {
-    console.error('SAGA ERROR: auth/logout, ', e);
+  } catch (e) {
+    console.error("SAGA ERROR: auth/logout, ", e);
   }
 }
 
 // WATCHER //
 export function* watchStartAPI() {
   yield takeLatest(types.AUTH_CHECK, checkAuth);
+  yield takeLatest(types.AUTH_COMPLETE, completeAuth);
   yield takeLatest(types.LOGOUT, authLogout);
 }

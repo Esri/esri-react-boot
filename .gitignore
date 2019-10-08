@@ -5,6 +5,8 @@
 
 # production
 /build
+_redirects
+_headers
 
 # misc
 .DS_Store
