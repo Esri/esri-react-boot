@@ -19,7 +19,7 @@
 // by listening for any new props (using componentWillReceiveProps)
 
 // React
-import React, { Component } from "react";
+import React from "react";
 
 // Redux
 import { connect } from "react-redux";
@@ -37,35 +37,17 @@ const Container = styled.div`
   width: 100%;
 `;
 
-// Variables
-const containerID = "map-view-container";
+// Component
+const Map = props => {
+  // set an ID for the map to attach to
+  const containerID = "map-view-container";
 
-class Map extends Component {
-  constructor(props) {
-    super(props);
-    // a ref to the DOM node where we want to create the map
-    // see: https://reactjs.org/docs/refs-and-the-dom.html
-    this.mapNode = React.createRef();
-  }
+  // load the map based on the loaded config
+  loadMap(containerID, props.mapConfig);
 
-  componentDidMount() {
-    loadMap(containerID, this.props.mapConfig).then(view => {
-      // hold onto a reference to the map view
-      // NOTE: we don't use props/state for this b/c we don't want to trigger a re-render
-      // see https://medium.freecodecamp.org/where-do-i-belong-a-guide-to-saving-react-component-data-in-state-store-static-and-this-c49b335e2a00#978c
-      this._view = view;
-    });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    // Tell React to never update this component, that's up to us
-    return false;
-  }
-
-  render() {
-    return <Container ref="mapDiv" id={containerID}></Container>;
-  }
-}
+  // Compnent template
+  return <Container id={containerID}></Container>;
+};
 
 const mapStateToProps = state => ({
   config: state.config,

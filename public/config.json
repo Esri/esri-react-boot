@@ -13,7 +13,9 @@
 
   "sessionId": "esri-react-boot_session",
 
-  "sceneConfig": {
-    "basemap": "dark-gray-vector"
+  "mapConfig": {
+    "basemap": "dark-gray-vector",
+    "center": [-95, 38],
+    "zoom": 4
   }
 }

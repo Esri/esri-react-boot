@@ -116,7 +116,7 @@ class Main extends Component {
         <MapWrapper>
           <Map
             onMapLoaded={this.props.mapLoaded}
-            mapConfig={this.props.config.sceneConfig}
+            mapConfig={this.props.config.mapConfig}
             is3DScene={true}
           />
         </MapWrapper>

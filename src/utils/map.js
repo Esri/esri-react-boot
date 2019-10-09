@@ -14,7 +14,7 @@ export function loadMap(element, mapOptions) {
     let view = new MapView({
       map,
       container: element,
-      zoom: 2
+      ...mapOptions
     });
     // wait for the view to load TODO: may not need this?
     return view.when(() => {
