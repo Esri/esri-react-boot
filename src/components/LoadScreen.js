@@ -10,7 +10,7 @@
 // limitations under the License.​
 
 // React
-import React, { Component } from "react";
+import React from "react";
 
 // Components
 import Loader from "calcite-react/Loader";
@@ -18,7 +18,7 @@ import background from "../styles/images/Topo-Abs-BG.svg";
 import logo from "../styles/images/Esri-React-Logo.svg";
 
 // Styled & Motion Components
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { motion } from "framer-motion";
 
 const Container = styled.div`
