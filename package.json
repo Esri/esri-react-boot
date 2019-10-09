@@ -8,16 +8,17 @@
     "@esri/arcgis-rest-portal": "^2.4.0",
     "@esri/arcgis-rest-request": "^2.4.0",
     "calcite-react": "^0.40.0",
-    "esri-loader": "^2.10.0",
+    "esri-loader": "^2.10.1",
+    "framer-motion": "^1.6.10",
     "js-cookie": "^2.2.1",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-redux": "^7.1.0",
-    "react-router-dom": "^5.0.1",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.1.2",
     "react-transition-group": "^4.2.2",
     "redux": "^4.0.4",
-    "redux-saga": "^1.0.5",
-    "styled-components": "^4.3.2"
+    "redux-saga": "^1.1.1",
+    "styled-components": "^4.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,7 +27,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "react-scripts": "^3.1.1"
+    "react-scripts": "^3.2.0"
   },
   "browserslist": {
     "development": [
