@@ -10,35 +10,23 @@
 // limitations under the License.​
 
 // React
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 // Components
-import Loader from 'calcite-react/Loader';
-import background from '../styles/images/Topo-Abs-BG.svg';
-import logo from '../styles/images/Esri-React-Logo.svg';
+import Loader from "calcite-react/Loader";
+import background from "../styles/images/Topo-Abs-BG.svg";
+import logo from "../styles/images/Esri-React-Logo.svg";
 
-// Styled Components
-import styled, { keyframes } from 'styled-components';
-
-const fadeOut = keyframes`
-  0%   {opacity: 1;}
-  100% {opacity: 0;}
-`;
+// Styled & Motion Components
+import styled, { keyframes } from "styled-components";
+import { motion } from "framer-motion";
 
 const Container = styled.div`
   position: absolute;
-  z-index: 10;
   height: 100%;
   width: 100%;
-  background: rgba(255,255,255,0.1) url(${background}) no-repeat center/cover;
+  background: rgba(255, 255, 255, 0.1) url(${background}) no-repeat center/cover;
   background-blend-mode: screen;
-`;
-
-const FadingContainer = styled(Container)`
-  animation-name: ${fadeOut};
-  animation-duration: ${props => props.delay};
-  animation-timing-function: ease-in-out;
-  animation-delay: ${props => props.duration};
 `;
 
 const Wrapper = styled.div`
@@ -48,7 +36,7 @@ const Wrapper = styled.div`
   transform: translate(-50%);
 `;
 
-const Title = styled.div `
+const Title = styled.div`
   position: absolute;
   right: 0;
   bottom: 0;
@@ -62,62 +50,48 @@ const Title = styled.div `
   color: white;
 `;
 
-const Label = styled.h1 `
+const Label = styled.h1`
   font-size: 3em;
-  text-shadow: -2px 2px 8px rgba(0,0,0,0.25);
+  text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
 `;
 
-const Logo = styled.img `
+const Logo = styled.img`
   width: 5em;
   height: 100%;
   margin-right: 1em;
 `;
 
-// Animation durations in millisecondss -- Change these to adjust animation
-const delayAmount = 1000;
-const durationAmount = 1000;
-// Animation calculations
-const animationPeriod = delayAmount + durationAmount;
-const animationDelay = delayAmount + 'ms';
-const animationDuration = durationAmount + 'ms';
+const FadingContainer = () => (
+  <motion.div
+    initial={{ opacity: 1, zIndex: 1000 }}
+    animate={{
+      opacity: 0,
+      transitionEnd: {
+        display: "none"
+      }
+    }}
+    transition={{ delay: 1, duration: 1, ease: "easeInOut" }}
+  >
+    <Container></Container>
+  </motion.div>
+);
 
-class LoadScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { isAnimating: true }
+const LoadScreen = props => {
+  if (!props.isLoading) {
+    return (
+      <Container>
+        <Wrapper>
+          <Loader />
+        </Wrapper>
+        <Title>
+          <Logo src={logo}></Logo>
+          <Label>Esri-React-Boot</Label>
+        </Title>
+      </Container>
+    );
   }
 
-  // Run animation timer
-  playAnimation = () => {
-    setTimeout(() => {
-      this.setState({
-        isAnimating: false
-      });
-    }, animationPeriod);
-  }
+  return <FadingContainer />;
+};
 
-  render() {
-    if (!this.props.isLoading && this.state.isAnimating) {
-      return (
-        <Container>
-          <Wrapper>
-            <Loader/>
-          </Wrapper>
-          <Title>
-            <Logo src={logo}></Logo>
-            <Label>Esri-React-Boot</Label>
-          </Title>
-        </Container>
-      )
-    } else if (this.props.isLoading && this.state.isAnimating) {
-      this.playAnimation();
-      return (
-        <FadingContainer delay={animationDelay} duration={animationDuration}/>
-      )
-    }
-
-    return null;
-  }
-}
-
-export default LoadScreen
+export default LoadScreen;
