@@ -6,9 +6,9 @@
   "logoutUrl": "api/logout",
   "jsapiUrl": "https://js.arcgis.com/4.12/",
   "jsapiV4": true,
-  "loginWithPopup": false,
+  "popup": false,
 
-  "appId": "hkdtqXBMmZ8JJ5tD",
+  "clientId": "hkdtqXBMmZ8JJ5tD",
   "portalUrl": "http://prof-services.maps.arcgis.com",
 
   "sessionId": "esri-react-boot_session",

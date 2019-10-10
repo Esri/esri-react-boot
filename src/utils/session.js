@@ -6,20 +6,15 @@ import * as Cookies from "js-cookie";
  * sign in using OAuth pop up
  */
 export function signIn(options) {
-  const {
-    portalUrl = "https://www.arcgis.com/",
-    clientId,
-    sessionId = `${portalUrl}_session`,
-    popup
-  } = options;
+  const { portalUrl = "https://www.arcgis.com/", clientId, popup } = options;
 
   // if (!sessionId) {
   //   sessionId = `${portalUrl}_session`;
   // }
 
-  console.log("signIn: ", portalUrl, clientId, sessionId, popup);
+  //console.log("signIn: ", portalUrl, clientId, sessionId, popup);
   // TODO !! errors here right before sign in redirect !!
-  const session = UserSession.beginOAuth2({
+  UserSession.beginOAuth2({
     clientId,
     portalUrl,
     popup,
@@ -30,7 +25,7 @@ export function signIn(options) {
   //   saveSession(session, sessionId);
   //   return session;
   // });
-  return session.getUser();
+  //return session.getUser();
 }
 
 /**
@@ -40,14 +35,13 @@ export async function completeSignIn(options) {
   const {
     portalUrl = "https://www.arcgis.com/",
     clientId,
-    sessionId = `${portalUrl}_session`,
-    popup
+    sessionId = `${portalUrl}_session`
   } = options;
   // if (!sessionId) {
   //   sessionId = `${portalUrl}_session`;
   // }
 
-  console.log("COMPLETE signIn: ", portalUrl, clientId, sessionId, popup);
+  //console.log("COMPLETE signIn: ", portalUrl, clientId, sessionId, popup);
 
   const session = UserSession.completeOAuth2({ clientId, portalUrl });
 
@@ -57,7 +51,7 @@ export async function completeSignIn(options) {
 
   const user = await session.getUser();
 
-  console.log("complete usersession: ", session, user);
+  //console.log("complete usersession: ", session, user);
   const portal = await getPortal(null, {
     portal: session.portal,
     authentication: session

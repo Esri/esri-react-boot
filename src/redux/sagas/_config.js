@@ -19,7 +19,7 @@ function* fetchConfig(action) {
     // call use request to fetch config
     const config = yield call(getAppConfig);
 
-    console.log("fetchConfig config: ", config);
+    //console.log("fetchConfig config: ", config);
 
     // Put config in store
     yield put({

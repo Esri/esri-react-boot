@@ -28,7 +28,7 @@ function* checkAuth(action) {
       authInfos = yield call(signIn, action.payload);
     }
 
-    console.log("checkAuth: ", authInfos);
+    //console.log("checkAuth: ", authInfos);
 
     // Check if the authObj is undefined
     if (authInfos) {
@@ -53,7 +53,7 @@ function* completeAuth(action) {
     // temp set to deliver over https on netlify
     authInfos.portal.allSSL = true;
 
-    console.log("COMPLETE Auth: ", authInfos);
+    //console.log("COMPLETE Auth: ", authInfos);
 
     //yield call(saveSession, action.payload.sessionId);
 

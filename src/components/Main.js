@@ -71,11 +71,11 @@ const NavList = styled(TopNavList)`
 // Class
 class Main extends Component {
   signIn = () => {
-    const { appId, sessionId, loginWithPopup } = this.props.config;
+    const { clientId, sessionId, popup } = this.props.config;
     this.props.checkAuth({
-      clientId: appId,
+      clientId,
       sessionId,
-      popup: loginWithPopup,
+      popup,
       signInRequest: true
     });
   };
