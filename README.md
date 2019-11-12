@@ -1,3 +1,5 @@
+<h3>This repo is currently under construction and the codebase no longer matches the docs!</h3>
+
 <p align="center">
   <img src="http://psgd.esri.com/img/esri-react-boot/Esri-React-Boot-Logo.svg#3" width="500" height="auto"/>
 </p>
