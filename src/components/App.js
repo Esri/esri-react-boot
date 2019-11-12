@@ -44,6 +44,7 @@ const App = props => {
     fetchConfig();
   }, [fetchConfig]);
 
+  // on update check for authentication
   useEffect(() => {
     // if the config isn't yet loaded then skip this effect
     if (!isConfigLoaded) {

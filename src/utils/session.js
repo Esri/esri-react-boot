@@ -3,29 +3,19 @@ import { getPortal } from "@esri/arcgis-rest-portal";
 import * as Cookies from "js-cookie";
 
 /**
- * sign in using OAuth pop up
+ * sign in using OAuth
  */
 export function signIn(options) {
   const { portalUrl = "https://www.arcgis.com/", clientId, popup } = options;
 
-  // if (!sessionId) {
-  //   sessionId = `${portalUrl}_session`;
-  // }
-
-  //console.log("signIn: ", portalUrl, clientId, sessionId, popup);
-  // TODO !! errors here right before sign in redirect !!
+  // only need to call the begin method, the rest is handled either in this method
+  // or in the completeSignIn update
   UserSession.beginOAuth2({
     clientId,
     portalUrl,
     popup,
     redirectUri: `${window.location.origin}/auth`
   });
-  // .then(session => {
-  //   // save session for next time the user loads the app
-  //   saveSession(session, sessionId);
-  //   return session;
-  // });
-  //return session.getUser();
 }
 
 /**
