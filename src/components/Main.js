@@ -9,16 +9,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.​
 
-// React
-import React, { Component } from "react";
+// React imports
+import React from "react";
 
-// Redux
+// Redux imports
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { actions as mapActions } from "../redux/reducers/map";
 import { actions as authActions } from "../redux/reducers/auth";
 
-// Components
+// Component imports
 import TopNav from "calcite-react/TopNav";
 import TopNavBrand from "calcite-react/TopNav/TopNavBrand";
 import TopNavTitle from "calcite-react/TopNav/TopNavTitle";
@@ -58,7 +58,6 @@ const Logo = styled(TopNavBrand)`
 `;
 
 const Nav = styled(TopNav)`
-  ${"" /* background-color: ${props => props.theme.palette.offWhite}; */}
   && {
     z-index: 5;
   }
@@ -68,11 +67,14 @@ const NavList = styled(TopNavList)`
   text-align: left;
 `;
 
-// Class
-class Main extends Component {
-  signIn = () => {
-    const { clientId, sessionId, popup } = this.props.config;
-    this.props.startAuth({
+// Component definition
+const Main = props => {
+  const { startAuth, logout, auth, config, mapLoaded } = props;
+
+  // Sign in button click event
+  const signIn = () => {
+    const { clientId, sessionId, popup } = config;
+    startAuth({
       clientId,
       sessionId,
       popup,
@@ -80,57 +82,58 @@ class Main extends Component {
     });
   };
 
-  signOut = () => {
-    this.props.logout(this.props.config.sessionId);
+  // Sign out button click event
+  const signOut = () => {
+    logout(config.sessionId);
   };
 
-  render() {
-    return (
-      <Container>
-        <LoadScreen isLoading={this.props.mapLoaded} />
+  return (
+    <Container>
+      <LoadScreen isLoading={mapLoaded} />
 
-        <Nav>
-          <Logo href="#" src={logo} />
-          <TopNavTitle href="#">ArcGIS JS API + React Boot</TopNavTitle>
-          <NavList>
-            <TopNavLink href="https://github.com/Esri/esri-react-boot">
-              Github
-            </TopNavLink>
-            <TopNavLink href="https://github.com/Esri/esri-react-boot/wiki">
-              Docs
-            </TopNavLink>
-            <TopNavLink href="https://calcite-react.netlify.com/">
-              Calcite-React
-            </TopNavLink>
-          </NavList>
-          <UserAccount
-            user={this.props.auth.user}
-            portal={this.props.auth.portal}
-            token={this.props.auth.token}
-            loggedIn={this.props.auth.loggedIn}
-            signIn={this.signIn}
-            signOut={this.signOut}
-          />
-        </Nav>
+      <Nav>
+        <Logo href="#" src={logo} />
+        <TopNavTitle href="#">ArcGIS JS API + React Boot</TopNavTitle>
+        <NavList>
+          <TopNavLink href="https://github.com/Esri/esri-react-boot">
+            Github
+          </TopNavLink>
+          <TopNavLink href="https://github.com/Esri/esri-react-boot/wiki">
+            Docs
+          </TopNavLink>
+          <TopNavLink href="https://calcite-react.netlify.com/">
+            Calcite-React
+          </TopNavLink>
+        </NavList>
+        <UserAccount
+          user={auth.user}
+          portal={auth.portal}
+          token={auth.token}
+          loggedIn={auth.loggedIn}
+          signIn={signIn}
+          signOut={signOut}
+        />
+      </Nav>
 
-        <MapWrapper>
-          <Map
-            onMapLoaded={this.props.mapLoaded}
-            mapConfig={this.props.config.mapConfig}
-            is3DScene={true}
-          />
-        </MapWrapper>
-      </Container>
-    );
-  }
-}
+      <MapWrapper>
+        <Map
+          onMapLoaded={mapLoaded}
+          mapConfig={config.mapConfig}
+          is3DScene={true}
+        />
+      </MapWrapper>
+    </Container>
+  );
+};
 
+// Map Redux state to Component props
 const mapStateToProps = state => ({
   map: state.map,
   auth: state.auth,
   config: state.config
 });
 
+// Map Redux Actions to Component props
 const mapDispatchToProps = function(dispatch) {
   return bindActionCreators(
     {
@@ -141,6 +144,7 @@ const mapDispatchToProps = function(dispatch) {
   );
 };
 
+// Component export
 export default connect(
   mapStateToProps,
   mapDispatchToProps

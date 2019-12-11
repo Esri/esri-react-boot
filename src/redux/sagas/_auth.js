@@ -22,14 +22,14 @@ import {
 function* startAuth(action) {
   try {
     //const user = yield call(signIn, action.payload);
-    console.log("checking the session...");
+    // console.log("checking the session...");
     let authInfos = yield call(restoreSession, action.payload.sessionId);
 
     if (!authInfos) {
       authInfos = yield call(signIn, action.payload);
     }
 
-    console.log("startAuth: ", authInfos);
+    // console.log("startAuth: ", authInfos);
 
     // Check if the authObj is undefined
     if (authInfos) {
