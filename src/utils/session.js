@@ -6,7 +6,11 @@ import * as Cookies from "js-cookie";
  * sign in using OAuth
  */
 export function signIn(options) {
-  const { portalUrl = "https://www.arcgis.com/", clientId, popup } = options;
+  const {
+    portalUrl = "https://www.arcgis.com/",
+    clientId,
+    popup = false
+  } = options;
 
   // only need to call the begin method, the rest is handled either in this method
   // or in the completeSignIn update
@@ -15,7 +19,7 @@ export function signIn(options) {
     portalUrl,
     popup,
     redirectUri: `${window.location.origin}/auth`
-  });
+  }); // TODO can use .then to complete auth here and save an update cycle?
 }
 
 /**
@@ -31,7 +35,7 @@ export async function completeSignIn(options) {
   //   sessionId = `${portalUrl}_session`;
   // }
 
-  //console.log("COMPLETE signIn: ", portalUrl, clientId, sessionId, popup);
+  //console.log("COMPLETE signIn: ", portalUrl, clientId, sessionId);
 
   const session = UserSession.completeOAuth2({ clientId, portalUrl });
 
@@ -67,6 +71,8 @@ export async function restoreSession(sessionId) {
   const session =
     serializedSession && UserSession.deserialize(serializedSession);
 
+  console.log("checking restore: ", session);
+
   if (session) {
     const user = await session.getUser();
 
@@ -91,10 +97,10 @@ export async function restoreSession(sessionId) {
 function saveSession(session, sessionId) {
   // get expiration from session
   const expires = session.tokenExpires;
+  console.log("Cookie: ", sessionId);
   Cookies.set(sessionId, session.serialize(), {
     expires,
-    secure: true,
-    SameSite: "None"
+    sameSite: "strict"
   });
 }
 

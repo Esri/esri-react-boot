@@ -72,7 +72,7 @@ const NavList = styled(TopNavList)`
 class Main extends Component {
   signIn = () => {
     const { clientId, sessionId, popup } = this.props.config;
-    this.props.checkAuth({
+    this.props.startAuth({
       clientId,
       sessionId,
       popup,

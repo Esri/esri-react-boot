@@ -28,7 +28,7 @@ const App = props => {
   // check location and grab user info if available
   const { pathname } = props.location;
   const { user } = props.auth;
-  const { config, fetchConfig, checkAuth, completeAuth } = props;
+  const { config, fetchConfig, checkAuth, startAuth, completeAuth } = props;
   // variables to determine state of component
   const isConfigLoaded = config.loaded;
   const isAuthRequired = props.auth.portalUrl ? true : false;
@@ -51,15 +51,25 @@ const App = props => {
       return;
     }
 
-    const { portalUrl, clientId, sessionId, popup } = config;
+    const { portalUrl, clientId, sessionId } = config;
 
     // Check if the app needs to start the auth process or complete the process
     if (portalUrl && !user && pathname !== "/auth") {
-      checkAuth({ portalUrl, clientId, sessionId, popup });
+      startAuth({ portalUrl, clientId, sessionId });
     } else if (pathname === "/auth" && !user) {
-      completeAuth({ portalUrl, clientId, sessionId, popup });
+      completeAuth({ portalUrl, clientId, sessionId });
+    } else {
+      checkAuth({ portalUrl, clientId, sessionId });
     }
-  }, [isConfigLoaded, config, pathname, user, checkAuth, completeAuth]);
+  }, [
+    isConfigLoaded,
+    config,
+    pathname,
+    user,
+    checkAuth,
+    startAuth,
+    completeAuth
+  ]);
 
   // App is initializing for the following reasons, show the load screen
   // 1. config is not yet loaded

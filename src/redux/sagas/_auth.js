@@ -19,16 +19,17 @@ import {
 } from "../../utils/session";
 
 // WORKER //
-function* checkAuth(action) {
+function* startAuth(action) {
   try {
     //const user = yield call(signIn, action.payload);
+    console.log("checking the session...");
     let authInfos = yield call(restoreSession, action.payload.sessionId);
 
     if (!authInfos) {
       authInfos = yield call(signIn, action.payload);
     }
 
-    //console.log("checkAuth: ", authInfos);
+    console.log("startAuth: ", authInfos);
 
     // Check if the authObj is undefined
     if (authInfos) {
@@ -42,7 +43,7 @@ function* checkAuth(action) {
     }
   } catch (e) {
     yield put({ type: types.AUTH_FAIL });
-    console.error("SAGA ERROR: auth/checkAuth, ", e);
+    console.error("SAGA ERROR: auth/startAuth, ", e);
   }
 }
 
@@ -56,6 +57,26 @@ function* completeAuth(action) {
     //console.log("COMPLETE Auth: ", authInfos);
 
     //yield call(saveSession, action.payload.sessionId);
+
+    // Check if the authObj is undefined
+    if (authInfos) {
+      yield put({
+        type: types.AUTH_SUCCESS,
+        payload: authInfos
+      });
+    } else {
+      // putting a fail call here just means that we didn't need to login
+      yield put({ type: types.AUTH_FAIL });
+    }
+  } catch (e) {
+    yield put({ type: types.AUTH_FAIL });
+    console.error("SAGA ERROR: auth/startAuth, ", e);
+  }
+}
+
+function* checkAuth(action) {
+  try {
+    let authInfos = yield call(restoreSession, action.payload.sessionId);
 
     // Check if the authObj is undefined
     if (authInfos) {
@@ -86,6 +107,7 @@ function* authLogout(action) {
 // WATCHER //
 export function* watchStartAPI() {
   yield takeLatest(types.AUTH_CHECK, checkAuth);
+  yield takeLatest(types.AUTH_START, startAuth);
   yield takeLatest(types.AUTH_COMPLETE, completeAuth);
   yield takeLatest(types.LOGOUT, authLogout);
 }

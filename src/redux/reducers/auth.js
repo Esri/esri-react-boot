@@ -11,10 +11,11 @@
 
 // ACTION TYPES //
 export const types = {
+  AUTH_START: "AUTH_START",
+  AUTH_COMPLETE: "AUTH_COMPLETE",
   AUTH_SUCCESS: "AUTH_SUCCESS",
   AUTH_FAIL: "AUTH_FAIL",
   AUTH_CHECK: "AUTH_CHECK",
-  AUTH_COMPLETE: "AUTH_COMPLETE",
   LOGOUT: "LOGOUT"
 };
 
@@ -55,6 +56,11 @@ export default (state = initialState, action) => {
 export const actions = {
   checkAuth: options => ({
     type: types.AUTH_CHECK,
+    payload: options
+  }),
+
+  startAuth: options => ({
+    type: types.AUTH_START,
     payload: options
   }),
 
