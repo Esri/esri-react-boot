@@ -17,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
   html,
   body {
     height: 100%;
-    font-family: Avenir Next, sans-serif;
+    font-family: Montserrat, sans-serif;
   }
 
   body {

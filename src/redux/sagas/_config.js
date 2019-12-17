@@ -16,12 +16,10 @@ import { getAppConfig } from "../../utils/request";
 // WORKER //
 function* fetchConfig(action) {
   try {
-    // call use request to fetch config
+    // fetch config
     const config = yield call(getAppConfig);
 
-    //console.log("fetchConfig config: ", config);
-
-    // Put config in store
+    // load config into Redux store
     yield put({
       type: configTypes.SET_CONFIG,
       payload: config

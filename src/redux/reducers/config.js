@@ -34,6 +34,4 @@ export default (state = initialState, action) => {
 };
 
 // ACTIONS //
-export const actions = {
-  fetchConfig: () => ({ type: types.CONFIG_FETCH })
-};
+export const fetchConfig = () => ({ type: types.CONFIG_FETCH });

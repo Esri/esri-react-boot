@@ -53,26 +53,24 @@ export default (state = initialState, action) => {
 };
 
 // ACTIONS //
-export const actions = {
-  checkAuth: options => ({
-    type: types.AUTH_CHECK,
-    payload: options
-  }),
+export const checkAuth = options => ({
+  type: types.AUTH_CHECK,
+  payload: options
+});
 
-  startAuth: options => ({
-    type: types.AUTH_START,
-    payload: options
-  }),
+export const startAuth = options => ({
+  type: types.AUTH_START,
+  payload: options
+});
 
-  completeAuth: options => ({
-    type: types.AUTH_COMPLETE,
-    payload: options
-  }),
+export const completeAuth = options => ({
+  type: types.AUTH_COMPLETE,
+  payload: options
+});
 
-  logout: sessionId => ({
-    type: types.LOGOUT,
-    payload: {
-      sessionId: sessionId
-    }
-  })
-};
+export const logout = sessionId => ({
+  type: types.LOGOUT,
+  payload: {
+    sessionId: sessionId
+  }
+});

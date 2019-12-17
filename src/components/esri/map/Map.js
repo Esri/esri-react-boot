@@ -18,15 +18,10 @@
 // never accepting re-renders) then reconnecting itself to the React lifecycle
 // by listening for any new props (using componentWillReceiveProps)
 
-// React
+// React imports
 import React from "react";
 
-// Redux
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actions as mapActions } from "../../../redux/reducers/map";
-
-// ESRI
+// ESRI ArcGIS API
 import { loadMap } from "../../../utils/map";
 
 // Styled Components
@@ -49,21 +44,4 @@ const Map = props => {
   return <Container id={containerID}></Container>;
 };
 
-const mapStateToProps = state => ({
-  config: state.config,
-  map: state.map
-});
-
-const mapDispatchToProps = function(dispatch) {
-  return bindActionCreators(
-    {
-      ...mapActions
-    },
-    dispatch
-  );
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Map);
+export default Map;

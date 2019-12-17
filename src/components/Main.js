@@ -13,10 +13,9 @@
 import React from "react";
 
 // Redux imports
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { actions as mapActions } from "../redux/reducers/map";
-import { actions as authActions } from "../redux/reducers/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { mapLoaded } from "../redux/reducers/map";
+import { startAuth, logout } from "../redux/reducers/auth";
 
 // Component imports
 import TopNav from "calcite-react/TopNav";
@@ -69,22 +68,26 @@ const NavList = styled(TopNavList)`
 
 // Component definition
 const Main = props => {
-  const { startAuth, logout, auth, config, mapLoaded } = props;
+  const auth = useSelector(state => state.auth);
+  const config = useSelector(state => state.config);
+  const dispatch = useDispatch();
 
   // Sign in button click event
   const signIn = () => {
     const { clientId, sessionId, popup } = config;
-    startAuth({
-      clientId,
-      sessionId,
-      popup,
-      signInRequest: true
-    });
+    dispatch(
+      startAuth({
+        clientId,
+        sessionId,
+        popup,
+        signInRequest: true
+      })
+    );
   };
 
   // Sign out button click event
   const signOut = () => {
-    logout(config.sessionId);
+    dispatch(logout(config.sessionId));
   };
 
   return (
@@ -126,26 +129,4 @@ const Main = props => {
   );
 };
 
-// Map Redux state to Component props
-const mapStateToProps = state => ({
-  map: state.map,
-  auth: state.auth,
-  config: state.config
-});
-
-// Map Redux Actions to Component props
-const mapDispatchToProps = function(dispatch) {
-  return bindActionCreators(
-    {
-      ...mapActions,
-      ...authActions
-    },
-    dispatch
-  );
-};
-
-// Component export
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Main);
+export default Main;

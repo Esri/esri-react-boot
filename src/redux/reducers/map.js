@@ -11,14 +11,12 @@
 
 // ACTION TYPES //
 export const types = {
-  MAP_LOADED: "MAP_LOADED",
-  SET_FEATURES: "SET_FEATURES"
+  MAP_LOADED: "MAP_LOADED"
 };
 
 // REDUCERS //
 export const initialState = {
-  loaded: false,
-  features: []
+  loaded: false
 };
 
 export default (state = initialState, action) => {
@@ -39,15 +37,4 @@ export default (state = initialState, action) => {
 };
 
 // ACTIONS //
-export const actions = {
-  mapLoaded: () => ({
-    type: types.MAP_LOADED,
-    payload: {}
-  }),
-  setFeatures: features => ({
-    type: types.SET_FEATURES,
-    payload: {
-      features
-    }
-  })
-};
+export const mapLoaded = () => ({ type: types.MAP_LOADED, payload: {} });

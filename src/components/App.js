@@ -14,10 +14,9 @@ import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 
 // Redux imports
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { actions as authActions } from "../redux/reducers/auth";
-import { actions as configActions } from "../redux/reducers/config";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchConfig } from "../redux/reducers/config";
+import { checkAuth, startAuth, completeAuth } from "../redux/reducers/auth";
 
 // Component imports
 import LoadScreen from "./LoadScreen";
@@ -25,59 +24,64 @@ import Main from "./Main";
 
 // Component definition
 const App = props => {
-  // check location and grab user info if available
+  // we'll use the url to determin sign-in state
   const { pathname } = props.location;
-  const { user } = props.auth;
-  const { config, fetchConfig, checkAuth, startAuth, completeAuth } = props;
-  // variables to determine state of component
-  const isConfigLoaded = config.loaded;
-  const isAuthRequired = props.auth.portalUrl ? true : false;
-  let signInRequested = false;
-  // set a halt state to allow the authentication process to complete before
-  // we redirect to the main component
-  if (pathname === "/auth" && !user) {
-    signInRequested = true;
-  }
+  // redux store state
+  const user = useSelector(state => state.auth.user);
+  const config = useSelector(state => state.config);
+  const dispatch = useDispatch();
 
-  // When the component mounts request the config and load it into the Redux state
+  // when the component mounts request the config and load it into the Redux state
   useEffect(() => {
-    fetchConfig();
-  }, [fetchConfig]);
+    dispatch(fetchConfig());
+  }, [dispatch]);
 
-  // on update check for authentication
+  // once the component mounts and the config loads, check if we have a saved session
   useEffect(() => {
     // if the config isn't yet loaded then skip this effect
-    if (!isConfigLoaded) {
+    if (!config.loaded) {
       return;
     }
 
     const { portalUrl, clientId, sessionId } = config;
 
-    // Check if the app needs to start the auth process or complete the process
-    if (portalUrl && !user && pathname !== "/auth") {
-      startAuth({ portalUrl, clientId, sessionId });
-    } else if (pathname === "/auth" && !user) {
-      completeAuth({ portalUrl, clientId, sessionId });
-    } else {
-      checkAuth({ portalUrl, clientId, sessionId });
-    }
-  }, [
-    isConfigLoaded,
-    config,
-    pathname,
-    user,
-    checkAuth,
-    startAuth,
-    completeAuth
-  ]);
+    dispatch(checkAuth({ portalUrl, clientId, sessionId }));
+  }, [config, dispatch]);
 
-  // App is initializing for the following reasons, show the load screen
+  // if there's no stored session, we'll watch the url path to see if we need to kick off an authentication
+  // this can happen automatically with a portalUrl property in the config
+  // or if the user requests a login through an event
+  useEffect(() => {
+    // if the config isn't yet loaded then skip this effect
+    if (!config.loaded) {
+      return;
+    }
+
+    const { portalUrl, clientId, sessionId } = config;
+
+    // we'll start the authentication here and it will return here to complete
+    if (portalUrl && !user && pathname !== "/auth") {
+      dispatch(startAuth({ portalUrl, clientId, sessionId }));
+    } else if (pathname === "/auth" && !user) {
+      dispatch(completeAuth({ portalUrl, clientId, sessionId }));
+    }
+  }, [config, user, pathname, dispatch]);
+
+  // set a halt state to allow the authentication process to complete before
+  // we redirect to the main component
+  let signInRequested = false;
+  if (pathname === "/auth") {
+    signInRequested = true;
+  }
+
+  // RENDER RETURN
+  // app is initializing for the following reasons, show the load screen
   // 1. config is not yet loaded
   // 2. authentication is required but there is no user information
   // 3. authentication is not required but user has requested to sign-in
   if (
-    !isConfigLoaded ||
-    (isAuthRequired && !user) ||
+    !config.loaded ||
+    (config.portalUrl && !user) ||
     (signInRequested && !user)
   ) {
     return <LoadScreen isLoaded={false} />;
@@ -92,25 +96,4 @@ const App = props => {
   );
 };
 
-// Map Redux state to Component props
-const mapStateToProps = state => ({
-  auth: state.auth,
-  config: state.config
-});
-
-// Map Redux Actions to Component props
-const mapDispatchToProps = function(dispatch) {
-  return bindActionCreators(
-    {
-      ...configActions,
-      ...authActions
-    },
-    dispatch
-  );
-};
-
-// Component export
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;
