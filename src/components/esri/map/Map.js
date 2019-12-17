@@ -37,8 +37,11 @@ const Map = props => {
   // set an ID for the map to attach to
   const containerID = "map-view-container";
 
-  // load the map based on the loaded config
-  loadMap(containerID, props.mapConfig);
+  // load map with config properties
+  loadMap(containerID, props.mapConfig).then(() => {
+    // call the map loaded event when we get the map view back
+    props.onMapLoaded();
+  });
 
   // Compnent template
   return <Container id={containerID}></Container>;

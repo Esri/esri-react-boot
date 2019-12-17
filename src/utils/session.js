@@ -31,11 +31,6 @@ export async function completeSignIn(options) {
     clientId,
     sessionId = `${portalUrl}_session`
   } = options;
-  // if (!sessionId) {
-  //   sessionId = `${portalUrl}_session`;
-  // }
-
-  //console.log("COMPLETE signIn: ", portalUrl, clientId, sessionId);
 
   const session = UserSession.completeOAuth2({ clientId, portalUrl });
 
@@ -45,7 +40,6 @@ export async function completeSignIn(options) {
 
   const user = await session.getUser();
 
-  //console.log("complete usersession: ", session, user);
   const portal = await getPortal(null, {
     portal: session.portal,
     authentication: session
@@ -71,8 +65,6 @@ export async function restoreSession(sessionId) {
   const session =
     serializedSession && UserSession.deserialize(serializedSession);
 
-  console.log("checking restore: ", session);
-
   if (session) {
     const user = await session.getUser();
 
@@ -97,7 +89,7 @@ export async function restoreSession(sessionId) {
 function saveSession(session, sessionId) {
   // get expiration from session
   const expires = session.tokenExpires;
-  console.log("Cookie: ", sessionId);
+
   Cookies.set(sessionId, session.serialize(), {
     expires,
     sameSite: "strict"

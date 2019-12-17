@@ -70,6 +70,7 @@ const NavList = styled(TopNavList)`
 const Main = props => {
   const auth = useSelector(state => state.auth);
   const config = useSelector(state => state.config);
+  const isMapLoaded = useSelector(state => state.map.loaded);
   const dispatch = useDispatch();
 
   // Sign in button click event
@@ -92,7 +93,7 @@ const Main = props => {
 
   return (
     <Container>
-      <LoadScreen isLoading={mapLoaded} />
+      <LoadScreen isLoading={!isMapLoaded} />
 
       <Nav>
         <Logo href="#" src={logo} />
@@ -119,11 +120,7 @@ const Main = props => {
       </Nav>
 
       <MapWrapper>
-        <Map
-          onMapLoaded={mapLoaded}
-          mapConfig={config.mapConfig}
-          is3DScene={true}
-        />
+        <Map onMapLoaded={mapLoaded} mapConfig={config.mapConfig} />
       </MapWrapper>
     </Container>
   );

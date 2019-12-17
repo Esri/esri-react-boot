@@ -26,11 +26,6 @@ export default (state = initialState, action) => {
         ...state,
         loaded: true
       };
-    case types.SET_FEATURES:
-      return {
-        ...state,
-        features: action.payload.features
-      };
     default:
       return state;
   }
