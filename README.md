@@ -1,5 +1,3 @@
-<h3>This repo is currently under construction and the codebase no longer matches the docs!</h3>
-
 <p align="center">
   <img src="http://psgd.esri.com/img/esri-react-boot/Esri-React-Boot-Logo.svg#3" width="500" height="auto"/>
 </p>
@@ -16,7 +14,7 @@ Detailed documentation can be found on the wiki: https://github.com/Esri/esri-re
   - Ready to deploy React application
   - Loads Esri's ArcGIS JS API
   - Map component that supports 2D/3D
-  - Built in Authentication
+  - Built in Authentication with ArcGIS REST JS
   - Includes Calcite-React with UI examples
 
 ## Tech
@@ -31,6 +29,7 @@ This project uses a number of open source libraries. We encourage you to become 
 | Redux-Saga | https://github.com/redux-saga/redux-saga |
 | esri-loader | https://github.com/Esri/esri-loader |
 | ArcGIS JS API | https://developers.arcgis.com/javascript/ |
+| ArcGIS REST JS | https://github.com/Esri/arcgis-rest-js |
 | Styled-Components | https://www.styled-components.com/ |
 | Calcite-React | https://github.com/Esri/calcite-react |
 
