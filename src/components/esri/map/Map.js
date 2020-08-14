@@ -19,13 +19,14 @@
 // by listening for any new props (using componentWillReceiveProps)
 
 // React imports
-import React from "react";
+import React, { useEffect } from "react";
 
 // ESRI ArcGIS API
 import { loadMap } from "../../../utils/map";
 
 // Styled Components
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div`
   height: 100%;
@@ -36,14 +37,17 @@ const Container = styled.div`
 const Map = props => {
   // set an ID for the map to attach to
   const containerID = "map-view-container";
+  const dispatch = useDispatch();
 
-  // load map with config properties
-  loadMap(containerID, props.mapConfig).then(() => {
-    // call the map loaded event when we get the map view back
-    props.onMapLoaded();
-  });
+  useEffect(() => {
+    // load map with config properties
+    loadMap(containerID, props.mapConfig).then(() => {
+      // dispatch the map loaded event when we get the map view back
+      dispatch(props.onMapLoaded());
+    });
+  }, [loadMap, containerID, props.mapConfig, dispatch, props.onMapLoaded])
 
-  // Compnent template
+  // Component template
   return <Container id={containerID}></Container>;
 };
 
