@@ -34,18 +34,18 @@ const Container = styled.div`
 `;
 
 // Component
-const Map = props => {
+const Map = ({mapConfig, onMapLoaded}) => {
   // set an ID for the map to attach to
   const containerID = "map-view-container";
   const dispatch = useDispatch();
 
   useEffect(() => {
     // load map with config properties
-    loadMap(containerID, props.mapConfig).then(() => {
+    loadMap(containerID, mapConfig).then(() => {
       // dispatch the map loaded event when we get the map view back
-      dispatch(props.onMapLoaded());
+      dispatch(onMapLoaded());
     });
-  }, [loadMap, containerID, props.mapConfig, dispatch, props.onMapLoaded])
+  }, [containerID, dispatch, mapConfig, onMapLoaded])
 
   // Component template
   return <Container id={containerID}></Container>;
