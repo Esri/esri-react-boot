@@ -84,7 +84,7 @@ const App = props => {
     (config.portalUrl && !user) ||
     (signInRequested && !user)
   ) {
-    return <LoadScreen isLoaded={false} />;
+    return <LoadScreen isLoading={true} />;
   }
 
   // App is initialized and user is authenticated if needed, route to main component
