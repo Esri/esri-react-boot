@@ -20,13 +20,13 @@
 
 // React imports
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 // ESRI ArcGIS API
 import { loadMap } from "../../../utils/map";
 
 // Styled Components
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 
 const Container = styled.div`
   height: 100%;
